@@ -3,6 +3,7 @@
 import { installPnpm } from '~/bootstrap-scripts/pnpm.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand, runCommands } from '~/utils/command.js';
+import { promptYesNo } from '~/utils/prompt.js';
 
 export async function installLatex() {
 	brewInstall('mactex', { cask: true });
@@ -17,17 +18,22 @@ export async function installLatex() {
 		},
 	});
 
-	const installLatexWorkflow = true;
-	if (installLatexWorkflow) {
-		await installPnpm();
+	const latexWorkflowDescription =
+		'a custom LaTeX workflow for compiling LaTeX documents';
+	await promptYesNo(
+		{
+			message: `Do you wish to install latex-workflow, ${latexWorkflowDescription}?`,
+		},
+		async () => {
+			await installPnpm();
 
-		runCommand({
-			description:
-				'Installing latex-workflow, a custom LaTeX workflow for compiling LaTeX documents.',
-			link: 'https://github.com/leonzalion/latex-workflow#readme',
-			command: 'pnpm install --global latex-workflow',
-		});
-	}
+			runCommand({
+				description: `Installing latex-workflow, ${latexWorkflowDescription}.`,
+				link: 'https://github.com/leonzalion/latex-workflow#readme',
+				command: 'pnpm install --global latex-workflow',
+			});
+		}
+	);
 
 	runCommand({
 		description: 'Update all LaTeX packages',
