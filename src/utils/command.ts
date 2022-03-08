@@ -25,7 +25,7 @@ type RunCommandProps = {
 	sudo?: boolean;
 } & SyncOptions;
 
-export function runCommand(props: RunCommandProps) {
+export async function runCommand(props: RunCommandProps) {
 	const { link, command, description, ...execaOptions } = props;
 	console.info(description, link);
 	if (typeof command === 'string') {

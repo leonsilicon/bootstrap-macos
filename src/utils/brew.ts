@@ -4,14 +4,17 @@ export function useBrew() {
 	return true;
 }
 
-export function brewInstall(pkg: string, options: { cask?: boolean } = {}) {
+export async function brewInstall(
+	pkg: string,
+	options: { cask?: boolean } = {}
+) {
 	if (options.cask) {
-		runCommand({
+		await runCommand({
 			description: `Installing cask ${pkg} with Homebrew`,
 			command: ['brew', 'install', '--cask', pkg],
 		});
 	} else {
-		runCommand({
+		await runCommand({
 			description: `Installing ${pkg} with Homebrew`,
 			command: ['brew', 'install', pkg],
 		});

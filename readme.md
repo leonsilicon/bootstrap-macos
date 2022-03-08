@@ -4,4 +4,6 @@ A collection of useful scripts/tutorials to bootstrap your macOS installation wi
 
 ## Scripts
 
+## Abbreviations
 
+**SP:** System Preferences

@@ -19,10 +19,16 @@
   },
   "homepage": "https://github.com/leonzalion/bootstrap-macos#readme",
   "dependencies": {
+    "camelcase-keys": "^7.0.2",
+    "change-case": "^4.1.2",
     "command-exists": "^1.2.9",
+    "desm": "^1.2.0",
     "execa": "^6.1.0",
     "mkdirp": "^1.0.4",
-    "open": "^8.4.0"
+    "onetime": "^6.0.0",
+    "open": "^8.4.0",
+    "outdent": "^0.8.0",
+    "run-applescript": "^6.0.0"
   },
   "prettier": "@leonzalion/configs/prettier.cjs",
   "commitlint": {
@@ -37,6 +43,9 @@
     "@types/node": "^17.0.21",
     "eslint": "^8.10.0",
     "prettier": "^2.5.1",
-    "typescript": "^4.6.2"
+    "quicktype": "^15.0.260",
+    "type-fest": "^2.12.0",
+    "typescript": "^4.6.2",
+    "vitest": "^0.6.0"
   }
 }

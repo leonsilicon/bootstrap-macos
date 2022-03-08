@@ -2,7 +2,11 @@
 	"extends": "./tsconfig.json",
 	"include": [
 		"src",
+		"generated",
+		"scripts",
+		"test",
 		".eslintrc.cjs",
 		".markdownlint.cjs",
+		"vitest.config.ts"
 	]
 }
