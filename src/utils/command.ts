@@ -1,6 +1,8 @@
 import type { SyncOptions } from 'execa';
 import { execaCommandSync, execaSync } from 'execa';
 
+type Command = string | string[];
+
 type RunCommandProps = {
 	/**
 	 * The link where the install command can be found.
@@ -15,7 +17,12 @@ type RunCommandProps = {
 	/**
 	 * The installation command to run
 	 */
-	command: string | string[];
+	command: Command;
+
+	/**
+	 * Whether the command needs sudo or not
+	 */
+	sudo?: boolean;
 } & SyncOptions;
 
 export function runCommand(props: RunCommandProps) {
@@ -29,5 +36,14 @@ export function runCommand(props: RunCommandProps) {
 		}
 
 		return execaSync(command[0], command.slice(1), execaOptions);
+	}
+}
+
+type RunCommandsProps = Omit<RunCommandProps, 'command'> & {
+	commands: Command[];
+};
+export function runCommands(props: RunCommandsProps) {
+	for (const command of props.commands) {
+		runCommand({ ...props, command });
 	}
 }
