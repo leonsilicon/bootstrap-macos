@@ -1,7 +1,14 @@
+import commandExists from 'command-exists';
 import { runCommand } from '~/utils/command.js';
 
-runCommand({
-	description: 'Install pnpm',
-	command: 'curl -fsSL https://get.pnpm.io/install.sh | sh -',
-	shell: true,
-});
+export async function installPnpm(force?: boolean) {
+	if (!force && (await commandExists('pnpm'))) {
+		return;
+	}
+
+	runCommand({
+		description: 'Install pnpm',
+		command: 'curl -fsSL https://get.pnpm.io/install.sh | sh -',
+		shell: true,
+	});
+}
