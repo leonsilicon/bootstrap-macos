@@ -1,5 +1,5 @@
 import type { SyncOptions } from 'execa';
-import { execaCommandSync } from 'execa';
+import { execaCommandSync, execaSync } from 'execa';
 
 type RunCommandProps = {
 	/**
@@ -15,11 +15,19 @@ type RunCommandProps = {
 	/**
 	 * The installation command to run
 	 */
-	command: string;
+	command: string | string[];
 } & SyncOptions;
 
 export function runCommand(props: RunCommandProps) {
 	const { installLink, command, description, ...execaOptions } = props;
 	console.info(description, installLink);
-	return execaCommandSync(command, execaOptions);
+	if (typeof command === 'string') {
+		return execaCommandSync(command, execaOptions);
+	} else {
+		if (command[0] === undefined) {
+			throw new Error('At least one command must be specified.');
+		}
+
+		return execaSync(command[0], command.slice(1), execaOptions);
+	}
 }

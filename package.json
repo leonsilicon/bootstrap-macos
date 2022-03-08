@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/leonzalion/bootstrap-macos#readme",
   "dependencies": {
-    "execa": "^6.1.0"
+    "execa": "^6.1.0",
+    "open": "^8.4.0"
   },
   "prettier": "@leonzalion/configs/prettier.cjs",
   "commitlint": {
