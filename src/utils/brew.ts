@@ -4,7 +4,7 @@ export function useBrew() {
 	return true;
 }
 
-export function brewInstall(pkg: string, options: { cask: boolean }) {
+export function brewInstall(pkg: string, options: { cask?: boolean } = {}) {
 	if (options.cask) {
 		runCommand({
 			description: `Installing cask ${pkg} with Homebrew`,
