@@ -1,3 +1,8 @@
-import { exec } from "~/utils.js";
+import { runCommand } from '~/utils/command.js';
 
-exec("xcode-select --install");
+runCommand({
+	description: 'Installs XCode developer tools.',
+	installLink:
+		'https://www.freecodecamp.org/news/install-xcode-command-line-tools/',
+	command: 'xcode-select --install',
+});

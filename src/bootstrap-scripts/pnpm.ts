@@ -1,3 +1,7 @@
-import { execaCommandSync as exec } from "execa";
+import { runCommand } from '~/utils/command.js';
 
-exec("curl -fsSL https://get.pnpm.io/install.sh | sh -", { shell: true });
+runCommand({
+	description: 'Install pnpm',
+	command: 'curl -fsSL https://get.pnpm.io/install.sh | sh -',
+	shell: true,
+});

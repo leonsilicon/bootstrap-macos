@@ -1,0 +1,10 @@
+{
+	"extends": "@leonzalion/configs/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"~/*": [
+				"./src/*"
+			]
+		}
+	}
+}
