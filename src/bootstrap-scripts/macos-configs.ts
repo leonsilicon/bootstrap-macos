@@ -3,7 +3,7 @@ import { runCommands } from '~/utils/command.js';
 
 runCommands({
 	description: 'Install personal macOS configs.',
-	installLink: 'https://github.com/leonzalion/macos-configs#readme',
+	link: 'https://github.com/leonzalion/macos-configs#readme',
 	commands: [
 		'git init',
 		'git remote add origin https://github.com/leonzalion/macos-configs',

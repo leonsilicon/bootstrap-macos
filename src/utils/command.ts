@@ -5,9 +5,9 @@ type Command = string | string[];
 
 type RunCommandProps = {
 	/**
-	 * The link where the install command can be found.
+	 * A link where more information about the command can be found.
 	 */
-	installLink?: string;
+	link?: string;
 
 	/**
 	 * A brief description about what the command does.
@@ -26,8 +26,8 @@ type RunCommandProps = {
 } & SyncOptions;
 
 export function runCommand(props: RunCommandProps) {
-	const { installLink, command, description, ...execaOptions } = props;
-	console.info(description, installLink);
+	const { link, command, description, ...execaOptions } = props;
+	console.info(description, link);
 	if (typeof command === 'string') {
 		return execaCommandSync(command, execaOptions);
 	} else {

@@ -2,7 +2,7 @@ import { runCommand } from '~/utils/command.js';
 
 runCommand({
 	description: 'Installs brew-file',
-	installLink:
+	link:
 		'https://homebrew-file.readthedocs.io/en/latest/installation.html',
 	command: 'brew install rcmdnk/file/brew-file',
 });
