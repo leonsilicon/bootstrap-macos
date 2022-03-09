@@ -1,5 +1,5 @@
-import { runAppleScript } from 'run-applescript';
 import { outdent } from 'outdent';
+import { runAppleScript } from '~/utils/applescript.js';
 
 const output = await runAppleScript(outdent`
   tell application "System Events"
@@ -11,4 +11,4 @@ const output = await runAppleScript(outdent`
 
 const uiElements = output.split(', ');
 
-console.log(uiElements)
+console.log(uiElements);

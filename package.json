@@ -27,8 +27,7 @@
     "mkdirp": "^1.0.4",
     "onetime": "^6.0.0",
     "open": "^8.4.0",
-    "outdent": "^0.8.0",
-    "run-applescript": "^6.0.0"
+    "outdent": "^0.8.0"
   },
   "prettier": "@leonzalion/configs/prettier.cjs",
   "commitlint": {

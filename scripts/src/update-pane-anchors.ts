@@ -1,9 +1,7 @@
 import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { camelCase } from 'change-case';
-import { runAppleScript } from 'run-applescript';
 import { outdent } from 'outdent';
-import camelcaseKeys from 'camelcase-keys';
+import { runAppleScript } from '~/utils/applescript.js';
 import { getGeneratedPath } from '~/utils/paths.js';
 
 // from https://apple.stackexchange.com/a/227024

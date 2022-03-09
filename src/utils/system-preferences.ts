@@ -1,36 +1,36 @@
-import { runAppleScript } from 'run-applescript';
 import { outdent } from 'outdent';
+import { runAppleScript } from '~/utils/applescript.js';
 import { parseUIElements } from '~/utils/gui-scripting/ui.js';
 
 // https://apple.stackexchange.com/questions/422165/applescript-system-preferences-automation
 export async function reopenSystemPreferences() {
 	await runAppleScript(outdent`
-		--  # Check to see if System Preferences is
-		--  # running and if yes, then close it.
-		--  #
-		--  # This is done so the script will not fail
-		--  # if it is running and a modal sheet is
-		--  # showing, hence the use of 'killall'
-		--  # as 'quit' fails when done so, if it is.
-		--  #
-		--  # This is also done to allow default behaviors
-		--  # to be predictable from a clean occurrence.
+		-- Check to see if System Preferences is
+		-- running and if yes, then close it.
+		--
+		-- This is done so the script will not fail
+		-- if it is running and a modal sheet is
+		-- showing, hence the use of 'killall'
+		-- as 'quit' fails when done so, if it is.
+		--
+		-- This is also done to allow default behaviors
+		-- to be predictable from a clean occurrence.
 
 		if running of application "System Preferences" then
-				try
-						tell application "System Preferences" to quit
-				on error
-						do shell script "killall 'System Preferences'"
-				end try
-				delay 0.1
+			try
+				tell application "System Preferences" to quit
+			on error
+				do shell script "killall 'System Preferences'"
+			end try
+			delay 0.1
 		end if
 
-		--  # Make sure System Preferences is not running before
-		--  # opening it again. Otherwise there can be an issue
-		--  # when trying to reopen it while it's actually closing.
+		-- Make sure System Preferences is not running before
+		-- opening it again. Otherwise there can be an issue
+		-- when trying to reopen it while it's actually closing.
 
 		repeat while running of application "System Preferences" is true
-				delay 0.1
+			delay 0.1
 		end repeat
 	`);
 }
@@ -92,15 +92,13 @@ export async function giveAppPermissionAccess({
 
 	const uiElements = parseUIElements(uiElementsDump);
 
-	const button = uiElements.find((ui) => {
-
-	});
+	const button = uiElements.find((ui) => {});
 
 	await runAppleScript(outdent`
 		tell application "System Events"
 			click
 		end tell
-	`)
+	`);
 	// Click the lock
 
 	console.log(securityPrivacyPaneContents);
