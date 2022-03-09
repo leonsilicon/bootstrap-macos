@@ -48,13 +48,24 @@ const paneIdToName = {
 	'com.apple.preference.security': 'Privacy & Security',
 };
 
-export async function openSystemPreferencesPane(
-	paneId: keyof typeof paneIdToName
-) {
+const paneAnchors = {
+	General: 'General',
+	Privacy: 'Privacy',
+};
+
+type OpenSystemPreferencesPaneProps = {
+	paneId: keyof typeof paneIdToName;
+	anchor: keyof typeof paneAnchors;
+};
+export async function openSystemPreferencesPane({
+	paneId,
+	anchor,
+}: OpenSystemPreferencesPaneProps) {
 	await runAppleScript(outdent`
 		tell application "System Preferences"
 			activate
 			reveal pane id ${JSON.stringify(paneId)}
+			anchor ${JSON.stringify(anchor)}
 		end tell
 	`);
 
@@ -73,7 +84,10 @@ export async function giveAppPermissionAccess({
 	permissionName,
 }: GiveAppPermissionAccessProps) {
 	await reopenSystemPreferences();
-	await openSystemPreferencesPane('com.apple.preference.security');
+	await openSystemPreferencesPane({
+		paneId: 'com.apple.preference.security',
+		anchor: 'Privacy',
+	});
 
 	let uiElements = createElementReferences(
 		(await runAppleScript(outdent`
@@ -149,4 +163,29 @@ export async function giveAppPermissionAccess({
 	}
 
 	await toggleCheckbox(appCheckbox, true);
+}
+
+/**
+Whenever software is blocked from loading (e.g. unidentified developer)
+*/
+export async function allowSystemSoftware() {
+	await reopenSystemPreferences();
+	await openSystemPreferencesPane({
+		paneId: 'com.apple.preference.security',
+		anchor: 'General',
+	});
+	const uiElements = await getUIElements('System Preferences');
+	const allowButton = uiElements.find((uiElement) => {
+		uiElement.path.some(
+			(part) =>
+				part.type === 'button' &&
+				(part.name === 'Allow' || part.name === 'Open Anyway')
+		);
+	});
+
+	if (allowButton === undefined) {
+		throw new Error(`Click button for system software was undefined.`);
+	}
+
+	await clickElement(allowButton);
 }
