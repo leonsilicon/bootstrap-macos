@@ -1,5 +1,6 @@
 import { runAppleScript } from 'run-applescript';
 import { outdent } from 'outdent';
+import { parseUIElements } from '~/utils/gui-scripting/ui.js';
 
 // https://apple.stackexchange.com/questions/422165/applescript-system-preferences-automation
 export async function reopenSystemPreferences() {
@@ -71,7 +72,7 @@ export async function giveAppPermissionAccess({
 	await reopenSystemPreferences();
 	await openSystemPreferencesPane('com.apple.preference.security');
 
-	const securityPrivacyPaneContents = await runAppleScript(outdent`
+	const uiElementsDump = await runAppleScript(outdent`
 		tell application "System Events"
 			-- Focus on the sidebar
 			keystroke tab
@@ -88,6 +89,19 @@ export async function giveAppPermissionAccess({
 			end tell
 		end tell
 	`);
+
+	const uiElements = parseUIElements(uiElementsDump);
+
+	const button = uiElements.find((ui) => {
+
+	});
+
+	await runAppleScript(outdent`
+		tell application "System Events"
+			click
+		end tell
+	`)
+	// Click the lock
 
 	console.log(securityPrivacyPaneContents);
 }
