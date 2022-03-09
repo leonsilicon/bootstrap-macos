@@ -1,6 +1,8 @@
+import { setTimeout as delay } from 'node:timers/promises';
 import { outdent } from 'outdent';
 import { runAppleScript } from '~/utils/applescript.js';
 import { clickElement } from '~/utils/gui-scripting/ui.js';
+import { promptAdminCredentials } from '~/utils/prompt.js';
 
 // https://apple.stackexchange.com/questions/422165/applescript-system-preferences-automation
 export async function reopenSystemPreferences() {
@@ -99,4 +101,15 @@ export async function giveAppPermissionAccess({
 	}
 
 	await clickElement(lockButton);
+	await delay(2000);
+
+	const { username, password } = await promptAdminCredentials();
+
+	await runAppleScript(outdent`
+		tell application "System Events"
+			keystroke ${JSON.stringify(username)}
+			keystroke tab
+			keystroke ${JSON.stringify(password)}
+		end tell
+	`);
 }

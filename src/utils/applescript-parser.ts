@@ -8,7 +8,7 @@ class AppleScriptParser {
 	index: number;
 
 	constructor(appleScriptString: string) {
-		this.value = appleScriptString.replaceAll('\n', ' ').trim();
+		this.value = appleScriptString;
 		this.index = 0;
 	}
 
@@ -154,7 +154,7 @@ class AppleScriptParser {
 		let end = this.index;
 		let cur = this.value[end++]!;
 
-		while (!END_OF_TOKEN.test(cur)) {
+		while (cur !== undefined && !END_OF_TOKEN.test(cur)) {
 			cur = this.value[end++]!;
 		}
 
@@ -165,9 +165,11 @@ class AppleScriptParser {
 }
 
 export function parseAppleScript(appleScriptString: string) {
+	appleScriptString = appleScriptString.replaceAll('\n', ' ').trim();
 	if (appleScriptString.length === 0) {
 		return;
 	}
 
-	return new AppleScriptParser(appleScriptString).parse();
+	const parsedString = new AppleScriptParser(appleScriptString).parse();
+	return parsedString;
 }
