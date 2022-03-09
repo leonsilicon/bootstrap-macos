@@ -29,15 +29,18 @@ export function createElementReference(
 			curChar === ' ' &&
 			elementPathString.slice(curIndex, curIndex + 4) === ' of '
 		) {
-			pathPartStrings.push(
-				elementPathString.slice(curPathPartIndex, curIndex + 1)
-			);
-			curPathPartIndex = curIndex + 4;
+			pathPartStrings.push(elementPathString.slice(curPathPartIndex, curIndex));
+			curIndex += 4;
+			curPathPartIndex = curIndex;
 			continue;
 		}
 
 		curIndex += 1;
 	}
+
+	pathPartStrings.push(elementPathString.slice(curPathPartIndex));
+
+	console.log(pathPartStrings);
 
 	const pathParts: ElementPathPart[] = pathPartStrings.map((pathPartString) => {
 		// If the name is a string
@@ -46,7 +49,7 @@ export function createElementReference(
 			// Don't include the `"` characters
 			return {
 				name: pathPartString.slice(stringStart + 1, -1),
-				type: pathPartString.slice(0, stringStart),
+				type: pathPartString.slice(0, stringStart - 1),
 				fullName: pathPartString,
 			};
 		}
@@ -60,6 +63,8 @@ export function createElementReference(
 			};
 		}
 	});
+
+	console.log('path', pathParts);
 
 	return {
 		application: pathParts.find((part) => part.type === 'application')!.name,
