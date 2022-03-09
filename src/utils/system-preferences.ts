@@ -109,7 +109,9 @@ export async function giveAppPermissionAccess({
 		tell application "System Events"
 			keystroke ${JSON.stringify(username)}
 			keystroke tab
+			delay 0.5
 			keystroke ${JSON.stringify(password)}
+			key code 36
 		end tell
 	`);
 }
