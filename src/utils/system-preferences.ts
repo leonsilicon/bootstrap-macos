@@ -1,6 +1,8 @@
 import { outdent } from 'outdent';
 import pWaitFor from 'p-wait-for';
 import { runAppleScript } from '~/utils/applescript.js';
+import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
+import { createElementReferences } from '~/utils/gui-scripting/element-path.js';
 import { clickElement, getUIElements } from '~/utils/gui-scripting/ui.js';
 import {
 	waitForElementExists,
@@ -73,26 +75,30 @@ export async function giveAppPermissionAccess({
 	await reopenSystemPreferences();
 	await openSystemPreferencesPane('com.apple.preference.security');
 
-	let uiElements = (await runAppleScript(outdent`
-		tell application "System Events"
-			-- Focus on the sidebar
-			keystroke tab
+	let uiElements = createElementReferences(
+		(await runAppleScript(outdent`
+			tell application "System Events"
+				-- Focus on the sidebar
+				keystroke tab
 
-			delay 0.5
+				delay 0.5
 
-			-- Selecting the Permission we need by typing out its name
-			keystroke ${JSON.stringify(permissionName)}
+				-- Selecting the Permission we need by typing out its name
+				keystroke ${JSON.stringify(permissionName)}
 
-			-- Retrieving all elements in the window
-			-- TODO: this could probably be optimized to get it only for the list of apps but I'm lazy
-			tell process "System Preferences"
-				get entire contents
+				-- Retrieving all elements in the window
+				-- TODO: this could probably be optimized to get it only for the list of apps but I'm lazy
+				tell process "System Preferences"
+					get entire contents
+				end tell
 			end tell
-		end tell
-	`)) as string[];
+		`)) as string[]
+	);
 
 	const lockButton = uiElements.find((uiElement) =>
-		uiElement.includes('"Click the lock to make changes."')
+		uiElement.path.some(
+			(part) => part.name === 'Click the lock to make changes.'
+		)
 	);
 
 	if (lockButton === undefined) {
@@ -106,14 +112,15 @@ export async function giveAppPermissionAccess({
 	uiElements = [];
 	await pWaitFor(async () => {
 		uiElements = await getUIElements('System Preferences');
-		return uiElements.some((element) => element.startsWith('sheet 1'));
+		return uiElements.some((element) =>
+			element.path.some((part) => part.fullName === 'sheet 1')
+		);
 	});
 	const authSheet = uiElements.find((element) =>
-		element.startsWith('sheet 1')
+		element.path.some((part) => part.fullName === 'sheet 1')
 	)!;
 
 	await waitForElementExists({
-		processName: 'System Preferences',
 		elementReference: authSheet,
 	});
 
@@ -128,21 +135,18 @@ export async function giveAppPermissionAccess({
 	`);
 
 	await waitForElementHidden({
-		processName: 'System Preferences',
 		elementReference: authSheet,
 	});
 
-	const appButton = uiElements.find((uiElement) => {
-		console.log(uiElement);
-		return (
-			uiElement.includes('checkbox') &&
-			uiElement.includes(JSON.stringify(appName))
-		);
-	});
+	const appCheckbox = uiElements.find(
+		(uiElement) =>
+			uiElement.path.some((part) => part.type === 'checkbox') &&
+			uiElement.path.some((part) => part.name.includes(appName))
+	);
 
-	if (appButton === undefined) {
+	if (appCheckbox === undefined) {
 		throw new Error(`Permissions checkbox for app ${appName} not found.`);
 	}
 
-	await clickElement(appButton);
+	await toggleCheckbox(appCheckbox, true);
 }
