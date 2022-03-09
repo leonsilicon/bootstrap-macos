@@ -60,7 +60,7 @@ type WaitForElementHiddenProps = {
 export async function waitForElementHidden({
 	processName,
 	elementReference,
-	interval,
+	interval = 0.1,
 }: WaitForElementHiddenProps) {
 	await runAppleScript(outdent`
 		tell application "System Events"

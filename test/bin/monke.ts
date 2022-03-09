@@ -4,6 +4,6 @@ import { giveAppPermissionAccess } from '~/utils/system-preferences.js';
 await promptAdminCredentials();
 
 await giveAppPermissionAccess({
-	appName: 'karabiner-grabber',
+	appName: 'karabiner_grabber',
 	permissionName: 'Input Monitoring',
 });
