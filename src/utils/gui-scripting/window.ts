@@ -43,7 +43,7 @@ export async function waitForElementExists({
 	await runAppleScript(outdent`
 		tell application "System Events"
 			tell process ${JSON.stringify(elementReference.applicationProcess)}
-					repeat until exists ${elementReference}
+					repeat until exists ${elementReference.pathString}
 							delay ${interval}
 					end repeat
 			end tell
