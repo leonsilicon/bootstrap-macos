@@ -1,7 +1,12 @@
-import { setTimeout as delay } from 'node:timers/promises';
 import { outdent } from 'outdent';
+import pWaitFor from 'p-wait-for';
 import { runAppleScript } from '~/utils/applescript.js';
-import { clickElement } from '~/utils/gui-scripting/ui.js';
+import { clickElement, getUIElements } from '~/utils/gui-scripting/ui.js';
+import {
+	waitForElementExists,
+	waitForElementHidden,
+	waitForWindow,
+} from '~/utils/gui-scripting/window.js';
 import { promptAdminCredentials } from '~/utils/prompt.js';
 
 // https://apple.stackexchange.com/questions/422165/applescript-system-preferences-automation
@@ -49,18 +54,12 @@ export async function openSystemPreferencesPane(
 			activate
 			reveal pane id ${JSON.stringify(paneId)}
 		end tell
-
-		tell application "System Events"
-			set i to 0
-			repeat until exists window ${JSON.stringify(
-				paneIdToName[paneId]
-			)} of application process "System Preferences"
-				delay 0.1
-				set i to i + 1
-				if i ≥ 30 then return
-			end repeat
-		end tell
 	`);
+
+	await waitForWindow({
+		windowName: paneIdToName[paneId],
+		processName: 'System Preferences',
+	});
 }
 
 type GiveAppPermissionAccessProps = {
@@ -74,7 +73,7 @@ export async function giveAppPermissionAccess({
 	await reopenSystemPreferences();
 	await openSystemPreferencesPane('com.apple.preference.security');
 
-	const uiElements = (await runAppleScript(outdent`
+	let uiElements = (await runAppleScript(outdent`
 		tell application "System Events"
 			-- Focus on the sidebar
 			keystroke tab
@@ -101,9 +100,22 @@ export async function giveAppPermissionAccess({
 	}
 
 	await clickElement(lockButton);
-	await delay(2000);
 
 	const { username, password } = await promptAdminCredentials();
+
+	uiElements = [];
+	await pWaitFor(async () => {
+		uiElements = await getUIElements('System Preferences');
+		return uiElements.some((element) => element.startsWith('sheet 1'));
+	});
+	const authSheet = uiElements.find((element) =>
+		element.startsWith('sheet 1')
+	)!;
+
+	await waitForElementExists({
+		processName: 'System Preferences',
+		elementReference: authSheet,
+	});
 
 	await runAppleScript(outdent`
 		tell application "System Events"
@@ -114,4 +126,23 @@ export async function giveAppPermissionAccess({
 			key code 36
 		end tell
 	`);
+
+	await waitForElementHidden({
+		processName: 'System Preferences',
+		elementReference: authSheet,
+	});
+
+	const appButton = uiElements.find((uiElement) => {
+		console.log(uiElement);
+		return (
+			uiElement.includes('checkbox') &&
+			uiElement.includes(JSON.stringify(appName))
+		);
+	});
+
+	if (appButton === undefined) {
+		throw new Error(`Permissions checkbox for app ${appName} not found.`);
+	}
+
+	await clickElement(appButton);
 }

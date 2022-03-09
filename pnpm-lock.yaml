@@ -18,7 +18,7 @@ specifiers:
   onetime: ^6.0.0
   open: ^8.4.0
   outdent: ^0.8.0
-  parse-applescript: ^1.0.0
+  parse-applescript: ^1.0.1
   prettier: ^2.5.1
   quicktype: ^15.0.260
   type-fest: ^2.12.0
@@ -36,7 +36,7 @@ dependencies:
   onetime: 6.0.0
   open: 8.4.0
   outdent: 0.8.0
-  parse-applescript: 1.0.0
+  parse-applescript: 1.0.1
 
 devDependencies:
   '@leonzalion/configs': 1.1.9_e9e030d60563d637612432ac20b8bcf5
@@ -3576,8 +3576,8 @@ packages:
       callsites: 3.1.0
     dev: true
 
-  /parse-applescript/1.0.0:
-    resolution: {integrity: sha512-qraO4HobMQdFcdib+9lgdx48a9NQcIcUXqqXDqpBTLkDrK3qkUIPhsBIlPJO6X05LyNwHNPHeLbb6NcIrYyRxg==}
+  /parse-applescript/1.0.1:
+    resolution: {integrity: sha512-xRRjI3O5c6s2T47xfUSNxaq/xs00/dFpnasZt2v1x2Tbwhakd7G3NtpTkwsxN1ETt1WrSJ7jtJKbqnuZxACfFQ==}
     dev: false
 
   /parse-json/5.2.0:

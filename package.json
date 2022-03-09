@@ -29,7 +29,7 @@
     "onetime": "^6.0.0",
     "open": "^8.4.0",
     "outdent": "^0.8.0",
-    "parse-applescript": "^1.0.0"
+    "parse-applescript": "^1.0.1"
   },
   "prettier": "@leonzalion/configs/prettier.cjs",
   "commitlint": {

@@ -1,7 +1,7 @@
 import { outdent } from 'outdent';
 import { runAppleScript } from '~/utils/applescript.js';
 
-export async function getUIElements(processName: string) {
+export async function getUIElements(processName: string): Promise<string[]> {
 	const elements = await runAppleScript(outdent`
 		tell application "System Events"
 		  tell front window of process ${JSON.stringify(processName)}
@@ -10,7 +10,7 @@ export async function getUIElements(processName: string) {
 		end tell
 	`);
 
-	return elements;
+	return elements as string[];
 }
 
 export async function clickElement(elementPath: string) {
