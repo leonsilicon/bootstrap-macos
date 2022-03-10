@@ -6,7 +6,7 @@ export function createBootstrapper<T extends Bootstrapper<unknown>>(
 	return {
 		skip: bootstrapper.skip,
 		async bootstrap(
-			props?: Parameters<T['bootstrap']>['0'] & { force: boolean }
+			props?: Parameters<T['bootstrap']>['0'] & { force?: boolean }
 		) {
 			if (props?.force) {
 				await bootstrapper.bootstrap(props);

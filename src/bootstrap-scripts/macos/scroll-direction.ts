@@ -5,8 +5,11 @@ import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
 import { clickElement, getUIElements } from '~/utils/gui-scripting/ui.js';
 import { openSystemPreferencesPane } from '~/utils/system-preferences.js';
 
+type BootstrapProps = {
+	value: boolean;
+};
 export const scrollDirectionBootstrapper = createBootstrapper({
-	async bootstrap() {
+	async bootstrap(props?: BootstrapProps) {
 		await openSystemPreferencesPane({
 			paneId: 'com.apple.preference.trackpad',
 		});
@@ -25,9 +28,7 @@ export const scrollDirectionBootstrapper = createBootstrapper({
 				const uiElements = await getUIElements('System Preferences');
 				const scrollDirectionNaturalCheckbox = uiElements.find((uiElement) =>
 					uiElement.path.some(
-						(part) =>
-							part.name === 'Scroll direction: Natural' &&
-							part.type === 'checkbox'
+						(part) => part.type === 'checkbox' && part.name === '1'
 					)
 				);
 				return scrollDirectionNaturalCheckbox
@@ -36,6 +37,6 @@ export const scrollDirectionBootstrapper = createBootstrapper({
 			}
 		);
 
-		await toggleCheckbox(scrollDirectionNaturalCheckbox, true);
+		await toggleCheckbox(scrollDirectionNaturalCheckbox, props?.value ?? true);
 	},
 });

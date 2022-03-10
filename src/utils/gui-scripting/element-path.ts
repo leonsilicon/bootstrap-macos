@@ -40,8 +40,6 @@ export function createElementReference(
 
 	pathPartStrings.push(elementPathString.slice(curPathPartIndex));
 
-	console.log(pathPartStrings);
-
 	const pathParts: ElementPathPart[] = pathPartStrings.map((pathPartString) => {
 		// If the name is a string
 		if (pathPartString.endsWith('"')) {
@@ -63,8 +61,6 @@ export function createElementReference(
 			};
 		}
 	});
-
-	console.log('path', pathParts);
 
 	return {
 		application: pathParts.find((part) => part.type === 'application')!.name,
