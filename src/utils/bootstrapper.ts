@@ -1,13 +1,15 @@
 import type { Bootstrapper } from '~/types/bootstrapper.js';
 
-export function createBootstrapper<T extends Bootstrapper<unknown>>(
-	bootstrapper: T
-) {
+export function createBootstrapper<BootstrapArgs>(
+	bootstrapper: Bootstrapper<BootstrapArgs>
+): Bootstrapper<BootstrapArgs> {
 	return {
 		manualInterventionNeeded: bootstrapper.manualInterventionNeeded ?? false,
 		skip: bootstrapper.skip,
 		async bootstrap(
-			props?: Parameters<T['bootstrap']>['0'] & { force?: boolean }
+			props?: Parameters<Bootstrapper<BootstrapArgs>['bootstrap']>['0'] & {
+				force?: boolean;
+			}
 		) {
 			if (props?.force) {
 				await bootstrapper.bootstrap(props);

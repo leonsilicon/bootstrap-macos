@@ -6,6 +6,7 @@ specifiers:
   '@types/inquirer': ^8.2.0
   '@types/mkdirp': ^1.0.2
   '@types/node': ^17.0.21
+  app-exists: ^2.1.1
   camelcase-keys: ^7.0.2
   change-case: ^4.1.2
   desm: ^1.2.0
@@ -27,6 +28,7 @@ specifiers:
   vitest: ^0.6.0
 
 dependencies:
+  app-exists: 2.1.1
   camelcase-keys: 7.0.2
   change-case: 4.1.2
   desm: 1.2.0
@@ -670,6 +672,11 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
     dev: true
+
+  /app-exists/2.1.1:
+    resolution: {integrity: sha512-CKnIl6DvW/JwNj13wBgvf+G+29aYhIR1uIHur7essWTMJSdHH6/2oiaNepd1QdyrsD5AGS2lDuKT5NcocLCcPQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /arg/4.1.3:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
