@@ -1,4 +1,4 @@
-import { pyenvBootstrapper } from '~/bootstrap-scripts/python/pyenv.js';
+import { pyenvBootstrapper } from '~/bootstrappers/python/pyenv.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 
 type BootstrapProps = {

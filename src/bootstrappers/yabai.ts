@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import mkdirp from 'mkdirp';
-import { pnpmBootstrapper } from '~/bootstrap-scripts/pnpm.js';
+import { pnpmBootstrapper } from '~/bootstrappers/pnpm.js';
 import { commandExists, runCommand } from '~/utils/command.js';
 import { getDotConfigFolderPath } from '~/utils/config.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';

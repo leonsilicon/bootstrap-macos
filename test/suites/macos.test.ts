@@ -1,5 +1,5 @@
 import { afterAll, test } from 'vitest';
-import { scrollDirectionBootstrapper } from '~/bootstrap-scripts/macos/scroll-direction.js';
+import { scrollDirectionBootstrapper } from '~/bootstrappers/macos/scroll-direction.js';
 
 test('scroll direction', async () => {
 	afterAll(async () => {
