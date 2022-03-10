@@ -1,5 +1,6 @@
 import { outdent } from 'outdent';
 import pWaitFor from 'p-wait-for';
+import type { ElementReference } from '~/types/element-path.js';
 import { runAppleScript } from '~/utils/applescript.js';
 import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
 import { createElementReferences } from '~/utils/gui-scripting/element-path.js';
@@ -46,16 +47,17 @@ export async function reopenSystemPreferences() {
 
 const paneIdToName = {
 	'com.apple.preference.security': 'Privacy & Security',
-};
+	'com.apple.preference.trackpad': 'Trackpad',
+} as const;
 
 const paneAnchors = {
 	General: 'General',
 	Privacy: 'Privacy',
-};
+} as const;
 
 type OpenSystemPreferencesPaneProps = {
 	paneId: keyof typeof paneIdToName;
-	anchor: keyof typeof paneAnchors;
+	anchor?: keyof typeof paneAnchors;
 };
 export async function openSystemPreferencesPane({
 	paneId,
@@ -65,7 +67,7 @@ export async function openSystemPreferencesPane({
 		tell application "System Preferences"
 			activate
 			reveal pane id ${JSON.stringify(paneId)}
-			anchor ${JSON.stringify(anchor)}
+			${anchor === undefined ? '' : JSON.stringify(anchor)}
 		end tell
 	`);
 
@@ -124,15 +126,13 @@ export async function giveAppPermissionAccess({
 	const { username, password } = await promptAdminCredentials();
 
 	uiElements = [];
-	await pWaitFor(async () => {
+	const authSheet = await pWaitFor<ElementReference>(async (resolve) => {
 		uiElements = await getUIElements('System Preferences');
-		return uiElements.some((element) =>
+		const authSheet = uiElements.find((element) =>
 			element.path.some((part) => part.fullName === 'sheet 1')
 		);
+		return authSheet ? resolve(authSheet) : false;
 	});
-	const authSheet = uiElements.find((element) =>
-		element.path.some((part) => part.fullName === 'sheet 1')
-	)!;
 
 	await waitForElementExists({
 		elementReference: authSheet,

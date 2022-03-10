@@ -21,7 +21,6 @@
   "dependencies": {
     "camelcase-keys": "^7.0.2",
     "change-case": "^4.1.2",
-    "command-exists": "^1.2.9",
     "desm": "^1.2.0",
     "execa": "^6.1.0",
     "inquirer": "^8.2.1",
@@ -29,7 +28,7 @@
     "onetime": "^6.0.0",
     "open": "^8.4.0",
     "outdent": "^0.8.0",
-    "p-wait-for": "^4.1.0",
+    "p-wait-for": "npm:@leonzalion/p-wait-for@^4.1.0",
     "parse-applescript": "^1.0.1",
     "prepend-file": "^2.0.1"
   },

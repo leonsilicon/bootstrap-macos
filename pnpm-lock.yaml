@@ -8,7 +8,6 @@ specifiers:
   '@types/node': ^17.0.21
   camelcase-keys: ^7.0.2
   change-case: ^4.1.2
-  command-exists: ^1.2.9
   desm: ^1.2.0
   eslint: ^8.10.0
   execa: ^6.1.0
@@ -18,7 +17,7 @@ specifiers:
   onetime: ^6.0.0
   open: ^8.4.0
   outdent: ^0.8.0
-  p-wait-for: ^4.1.0
+  p-wait-for: npm:@leonzalion/p-wait-for@^4.1.0
   parse-applescript: ^1.0.1
   prepend-file: ^2.0.1
   prettier: ^2.5.1
@@ -30,7 +29,6 @@ specifiers:
 dependencies:
   camelcase-keys: 7.0.2
   change-case: 4.1.2
-  command-exists: 1.2.9
   desm: 1.2.0
   execa: 6.1.0
   inquirer: 8.2.1
@@ -38,7 +36,7 @@ dependencies:
   onetime: 6.0.0
   open: 8.4.0
   outdent: 0.8.0
-  p-wait-for: 4.1.0
+  p-wait-for: /@leonzalion/p-wait-for/4.1.0
   parse-applescript: 1.0.1
   prepend-file: 2.0.1
 
@@ -175,6 +173,13 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /@leonzalion/p-wait-for/4.1.0:
+    resolution: {integrity: sha512-juJ3kzltldDQq+h3dtx31a6LnlvY7vGioLEkpyog+qXZpz19+0+SAFHknCl2HFgATOFJTCs5ju8fZhU9KX5eEA==}
+    engines: {node: '>=12'}
+    dependencies:
+      p-timeout: 5.0.2
+    dev: false
 
   /@mark.probst/typescript-json-schema/0.32.0:
     resolution: {integrity: sha512-OoD+5D7Mka80FIcmvPyuAKV7g5Of5S04R74S4DTAG8pr9REDWySUh9pOloro7SNFwWt/+2f90wyP+DtGHykVfg==}
@@ -1039,10 +1044,6 @@ packages:
 
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
-
-  /command-exists/1.2.9:
-    resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
-    dev: false
 
   /command-line-args/4.0.7:
     resolution: {integrity: sha512-aUdPvQRAyBvQd2n7jXcsMDz68ckBJELXNzBybCHOibUWEg0mWTnaYCSRU8h9R+aNRSvDihJtssSRCiDRpLaezA==}
@@ -3559,13 +3560,6 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
     dev: true
-
-  /p-wait-for/4.1.0:
-    resolution: {integrity: sha512-i8nE5q++9h8oaQHWltS1Tnnv4IoMDOlqN7C0KFG2OdbK0iFJIt6CROZ8wfBM+K4Pxqfnq4C4lkkpXqTEpB5DZw==}
-    engines: {node: '>=12'}
-    dependencies:
-      p-timeout: 5.0.2
-    dev: false
 
   /pako/0.2.9:
     resolution: {integrity: sha1-8/dSL073gjSNqBYbrZ7P1Rv4OnU=}
