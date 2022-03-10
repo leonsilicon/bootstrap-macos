@@ -5,7 +5,7 @@ import { pnpmBootstrapper } from '~/bootstrappers/pnpm.js';
 import { commandExists, runCommand } from '~/utils/command.js';
 import { getDotConfigFolderPath } from '~/utils/config.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
-import { promptYesNo } from '~/utils/prompt.js';
+import { promptYesNo } from '~/utils/input.js';
 
 export const yabaiBootstrapper = createBootstrapper({
 	async skip() {

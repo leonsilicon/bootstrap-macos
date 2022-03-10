@@ -2,13 +2,13 @@ import { pnpmBootstrapper } from '~/bootstrappers/pnpm.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand, runCommands } from '~/utils/command.js';
-import { promptYesNo } from '~/utils/prompt.js';
+import { promptYesNo } from '~/utils/input.js';
 
 export const latexBootstrapper = createBootstrapper({
-	async bootstrap() {
-		await brewInstall('mactex', { cask: true });
+	async bootstrap(context, ) {
+		await brewInstall(context, 'mactex', { cask: true });
 
-		await runCommands({
+		await runCommands(context, {
 			description: 'Installing Perl packages needed for latexindent',
 			commands: ['cpan File::HomeDir', 'cpan YAML::Tiny'],
 			extendEnv: true,

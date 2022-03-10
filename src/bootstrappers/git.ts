@@ -3,7 +3,7 @@ import { runCommand } from '~/utils/command.js';
 
 export const gitBoostrapper = createBootstrapper({
 	async bootstrap() {
-		await runCommand({
+		await runCommand(context, {
 			description: 'Set git default branch to main',
 			command: 'git config --global init.defaultBranch main',
 		});

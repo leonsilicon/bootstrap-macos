@@ -1,13 +1,18 @@
 import { outdent } from 'outdent';
+import type { BootstrapperContext } from '~/types/context.js';
 import type { ElementReference } from '~/types/element-path.js';
 import { runAppleScript } from '~/utils/applescript.js';
 
+type ToggleCheckboxProps = {
+	element: ElementReference;
+	value?: boolean;
+};
 export async function toggleCheckbox(
-	elementReference: ElementReference,
-	value?: boolean
+	context: BootstrapperContext,
+	props: ToggleCheckboxProps
 ) {
 	let checkboxAction: string;
-	switch (value) {
+	switch (props.value) {
 		case true:
 			// If checkbox is not checked, then check it
 			checkboxAction = 'if not (its value as boolean) then click theCheckbox';
@@ -19,12 +24,15 @@ export async function toggleCheckbox(
 			checkboxAction = 'click theCheckbox';
 	}
 
-	await runAppleScript(outdent`
-		tell application "System Events" to tell process ${elementReference.applicationProcess}
-			set theCheckbox to ${elementReference.pathString}
-			tell theCheckbox
-				${checkboxAction}
+	await runAppleScript(
+		context,
+		outdent`
+			tell application "System Events" to tell process ${props.element.applicationProcess}
+				set theCheckbox to ${props.element.pathString}
+				tell theCheckbox
+					${checkboxAction}
+				end tell
 			end tell
-		end tell
-	`);
+		`
+	);
 }

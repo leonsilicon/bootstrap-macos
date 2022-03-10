@@ -2,32 +2,31 @@ import pWaitFor from 'p-wait-for';
 import type { ElementReference } from '~/types/element-path.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
-import { clickElement, getUIElements } from '~/utils/gui-scripting/ui.js';
+import { clickElement, getElements } from '~/utils/gui-scripting/ui.js';
 import { openSystemPreferencesPane } from '~/utils/system-preferences.js';
 
-type BootstrapProps = {
+export const scrollDirectionBootstrapper = createBootstrapper<{
 	value: boolean;
-};
-export const scrollDirectionBootstrapper = createBootstrapper({
-	async bootstrap(props?: BootstrapProps) {
-		await openSystemPreferencesPane({
+}>({
+	async bootstrap(context, props) {
+		await openSystemPreferencesPane(context, {
 			paneId: 'com.apple.preference.trackpad',
 		});
-		const uiElements = await getUIElements('System Preferences');
-		const scrollAndZoomButton = uiElements.find((uiElement) =>
-			uiElement.path.some((pathPart) => pathPart.name.includes('Scroll & Zoom'))
+		const elements = await getElements(context, 'System Preferences');
+		const scrollAndZoomButton = elements.find((element) =>
+			element.path.some((pathPart) => pathPart.name.includes('Scroll & Zoom'))
 		);
 
 		if (scrollAndZoomButton === undefined) {
 			throw new Error('"Scroll & Zoom" button not found.');
 		}
 
-		await clickElement(scrollAndZoomButton);
+		await clickElement(context, scrollAndZoomButton);
 		const scrollDirectionNaturalCheckbox = await pWaitFor<ElementReference>(
 			async (resolve) => {
-				const uiElements = await getUIElements('System Preferences');
-				const scrollDirectionNaturalCheckbox = uiElements.find((uiElement) =>
-					uiElement.path.some(
+				const elements = await getElements(context, 'System Preferences');
+				const scrollDirectionNaturalCheckbox = elements.find((element) =>
+					element.path.some(
 						(part) => part.type === 'checkbox' && part.name === '1'
 					)
 				);
@@ -37,6 +36,9 @@ export const scrollDirectionBootstrapper = createBootstrapper({
 			}
 		);
 
-		await toggleCheckbox(scrollDirectionNaturalCheckbox, props?.value ?? true);
+		await toggleCheckbox(context, {
+			element: scrollDirectionNaturalCheckbox,
+			value: props?.value ?? true,
+		});
 	},
 });

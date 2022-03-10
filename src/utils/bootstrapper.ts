@@ -1,21 +1,25 @@
-import type { Bootstrapper } from '~/types/bootstrapper.js';
+import type {
+	Bootstrapper,
+	CreateBootstrapperProps,
+} from '~/types/bootstrapper.js';
+import type { BootstrapperContext } from '~/types/context.js';
 
 export function createBootstrapper<BootstrapArgs>(
-	bootstrapper: Bootstrapper<BootstrapArgs>
+	bootstrapper: CreateBootstrapperProps<BootstrapArgs>
 ): Bootstrapper<BootstrapArgs> {
 	return {
 		manualInterventionNeeded: bootstrapper.manualInterventionNeeded ?? false,
-		skip: bootstrapper.skip,
 		async bootstrap(
-			props?: Parameters<Bootstrapper<BootstrapArgs>['bootstrap']>['0'] & {
+			context: BootstrapperContext,
+			args?: BootstrapArgs & {
 				force?: boolean;
 			}
 		) {
-			if (props?.force) {
-				await bootstrapper.bootstrap(props);
+			if (args?.force) {
+				await bootstrapper.bootstrap(context, args as any);
 			} else {
-				if (!(await bootstrapper.skip?.())) {
-					await bootstrapper.bootstrap(props);
+				if (!(await bootstrapper.skip?.(context, args as any))) {
+					await bootstrapper.bootstrap(context, args as any);
 				}
 			}
 		},

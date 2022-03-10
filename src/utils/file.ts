@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import prependFile from 'prepend-file';
+import type { BootstrapperContext } from '~/types/context.js';
 
 export type AddToFileOptions = {
 	filePath: string;
@@ -8,12 +9,15 @@ export type AddToFileOptions = {
 	prepend?: boolean;
 };
 
-export async function addToFile({
-	filePath,
-	force,
-	content,
-	prepend,
-}: AddToFileOptions) {
+export async function addToFile(
+	context: BootstrapperContext,
+	{ filePath, force, content, prepend }: AddToFileOptions
+) {
+	if (context.dryRun) {
+		context.dryRunContext.modifiedFiles.push(filePath);
+		return;
+	}
+
 	if (force) {
 		if (prepend) {
 			await prependFile(filePath, content);
