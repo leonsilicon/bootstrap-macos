@@ -29,7 +29,9 @@
     "onetime": "^6.0.0",
     "open": "^8.4.0",
     "outdent": "^0.8.0",
-    "parse-applescript": "^1.0.1"
+    "p-wait-for": "^4.1.0",
+    "parse-applescript": "^1.0.1",
+    "prepend-file": "^2.0.1"
   },
   "prettier": "@leonzalion/configs/prettier.cjs",
   "commitlint": {

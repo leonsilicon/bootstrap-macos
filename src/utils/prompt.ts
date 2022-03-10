@@ -5,12 +5,13 @@ type PromptYesNoOptions = {
 	message: string;
 };
 
-export async function promptYesNo(
-	options: PromptYesNoOptions,
-	cb: () => Promise<void> | void
-) {
-	console.info(options.message);
-	await cb();
+export async function promptYesNo(options: PromptYesNoOptions) {
+	const { response } = await inquirer.prompt<{ response: boolean }>({
+		message: options.message,
+		type: 'confirm',
+		name: 'response',
+	});
+	return response;
 }
 
 export const promptAdminCredentials = onetime(async () => {

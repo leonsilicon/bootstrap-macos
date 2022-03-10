@@ -175,13 +175,13 @@ export async function allowSystemSoftware() {
 		anchor: 'General',
 	});
 	const uiElements = await getUIElements('System Preferences');
-	const allowButton = uiElements.find((uiElement) => {
+	const allowButton = uiElements.find((uiElement) =>
 		uiElement.path.some(
 			(part) =>
 				part.type === 'button' &&
 				(part.name === 'Allow' || part.name === 'Open Anyway')
-		);
-	});
+		)
+	);
 
 	if (allowButton === undefined) {
 		throw new Error(`Click button for system software was undefined.`);
