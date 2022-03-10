@@ -2,10 +2,11 @@ import { pnpmBootstrapper } from '~/bootstrappers/pnpm.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand, runCommands } from '~/utils/command.js';
-import { promptYesNo } from '~/utils/input.js';
+import { promptYesNo } from '~/utils/prompt.js';
 
 export const latexBootstrapper = createBootstrapper({
-	async bootstrap(context, ) {
+	name: 'LaTeX (macTeX)',
+	async bootstrap(context) {
 		await brewInstall(context, 'mactex', { cask: true });
 
 		await runCommands(context, {
@@ -22,23 +23,25 @@ export const latexBootstrapper = createBootstrapper({
 			'a custom LaTeX workflow for compiling LaTeX documents';
 
 		if (
-			await promptYesNo({
+			await promptYesNo(context, {
 				message: `Do you wish to install latex-workflow, ${latexWorkflowDescription}?`,
 			})
 		) {
-			await pnpmBootstrapper.bootstrap();
+			await pnpmBootstrapper.bootstrap(context);
 
-			await runCommand({
+			await runCommand(context, {
 				description: `Installing latex-workflow, ${latexWorkflowDescription}.`,
 				link: 'https://github.com/leonzalion/latex-workflow#readme',
 				command: 'pnpm install --global latex-workflow',
 			});
 		}
 
-		await runCommand({
+		await runCommand(context, {
 			description: 'Update all LaTeX packages',
 			command: 'tlmgr update --self --all',
 			sudo: true,
 		});
 	},
 });
+
+export default latexBootstrapper;

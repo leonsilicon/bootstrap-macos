@@ -3,12 +3,13 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { runCommand } from '~/utils/command.js';
 
 export const pythonBootstrapper = createBootstrapper<{ version: string }>({
-	async bootstrap(props) {
-		await pyenvBootstrapper.bootstrap();
+	name: 'Python',
+	async bootstrap(context, args) {
+		await pyenvBootstrapper.bootstrap(context);
 
 		// If a specific version isn't specified, install the latest
-		if (props?.version === undefined) {
-			await runCommand({
+		if (args?.version === undefined) {
+			await runCommand(context, {
 				description: 'Installing the latest version of Python using pyenv',
 				link: 'https://stackoverflow.com/a/33423958',
 				command:
@@ -18,10 +19,12 @@ export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 		}
 		// Install a specific version of Python
 		else {
-			await runCommand({
-				description: `Installing Python ${props.version} using pyenv`,
-				command: `pyenv install -v ${props.version}`,
+			await runCommand(context, {
+				description: `Installing Python ${args.version} using pyenv`,
+				command: `pyenv install -v ${args.version}`,
 			});
 		}
 	},
 });
+
+export default pythonBootstrapper;

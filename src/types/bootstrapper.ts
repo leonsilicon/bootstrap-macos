@@ -1,6 +1,8 @@
 import type { BootstrapperContext } from '~/types/context.js';
 
 export type Bootstrapper<BootstrapArgs> = {
+	name: string;
+	description?: string;
 	manualInterventionNeeded: boolean;
 	bootstrap(
 		context: BootstrapperContext,
@@ -10,6 +12,8 @@ export type Bootstrapper<BootstrapArgs> = {
 };
 
 export type CreateBootstrapperProps<BootstrapArgs> = {
+	name: string;
+	description?: string;
 	manualInterventionNeeded?: boolean;
 	skip?(
 		context: BootstrapperContext,

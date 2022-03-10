@@ -3,8 +3,9 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { runCommands } from '~/utils/command.js';
 
 export const macosConfigsBootstrapper = createBootstrapper({
-	async bootstrap() {
-		await runCommands({
+	name: 'Custom macOS Configs',
+	async bootstrap(context) {
+		await runCommands(context, {
 			description: 'Install personal macOS configs.',
 			link: 'https://github.com/leonzalion/macos-configs#readme',
 			commands: [
@@ -18,3 +19,5 @@ export const macosConfigsBootstrapper = createBootstrapper({
 		// Change keyboard layout to Programmer Dvorak
 	},
 });
+
+export default macosConfigsBootstrapper;

@@ -4,16 +4,20 @@ import { commandExists } from '~/utils/command.js';
 import { addToZprofile, addToZshrc } from '~/utils/zsh.js';
 
 export const pyenvBootstrapper = createBootstrapper({
-	async skip() {
-		return commandExists('pyenv');
+	name: 'pyenv',
+	description: 'Python Version Manager',
+	async skip(context) {
+		return commandExists(context, 'pyenv');
 	},
-	async bootstrap() {
-		await brewInstall('pyenv');
-		await addToZshrc({
+	async bootstrap(context) {
+		await brewInstall(context, 'pyenv');
+		await addToZshrc(context, {
 			content: 'eval "$(pyenv init -)"',
 		});
-		await addToZprofile({
+		await addToZprofile(context, {
 			content: 'eval "$(pyenv init --path)"',
 		});
 	},
 });
+
+export default pyenvBootstrapper;

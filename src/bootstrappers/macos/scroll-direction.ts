@@ -8,6 +8,7 @@ import { openSystemPreferencesPane } from '~/utils/system-preferences.js';
 export const scrollDirectionBootstrapper = createBootstrapper<{
 	value: boolean;
 }>({
+	name: 'macOS Scroll Direction Settings',
 	async bootstrap(context, props) {
 		await openSystemPreferencesPane(context, {
 			paneId: 'com.apple.preference.trackpad',
@@ -42,3 +43,5 @@ export const scrollDirectionBootstrapper = createBootstrapper<{
 		});
 	},
 });
+
+export default scrollDirectionBootstrapper;

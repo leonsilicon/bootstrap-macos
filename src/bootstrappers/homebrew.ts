@@ -1,8 +1,10 @@
 import { createBootstrapper } from '~/utils/bootstrapper.js';
+import { runCommand } from '~/utils/command.js';
 
 export const homebrewBootstrapper = createBootstrapper({
+	name: 'Homebrew',
 	async bootstrap(context) {
-		await context.runCommand({
+		await runCommand(context, {
 			description: 'Installs Homebrew',
 			link: 'https://brew.sh',
 			command:
@@ -10,15 +12,17 @@ export const homebrewBootstrapper = createBootstrapper({
 			shell: true,
 		});
 
-		await context.runCommand({
+		await runCommand(context, {
 			description: 'Installs brew-file',
 			link: 'https://homebrew-file.readthedocs.io/en/latest/installation.html',
 			command: 'brew install rcmdnk/file/brew-file',
 		});
 
-		await context.runCommand({
+		await runCommand(context, {
 			description: 'Installs all packages specified in Brewfile',
 			command: 'brew-file install',
 		});
 	},
 });
+
+export default homebrewBootstrapper;

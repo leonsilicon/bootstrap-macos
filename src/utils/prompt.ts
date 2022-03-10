@@ -80,15 +80,16 @@ export async function promptAdminCredentials() {
 	return { username, password };
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 type PromptInputProps = {
 	message: string;
 };
-export async function promptInput(
+export async function promptInput<Context extends BootstrapperContext>(
 	context: BootstrapperContext,
 	props: PromptInputProps
-): Promise<string | undefined> {
+): Promise<Context['dryRun'] extends true ? undefined : string> {
 	if (context.dryRun) {
-		return undefined;
+		return undefined as any;
 	}
 
 	const { response } = await inquirer.prompt<{ response: string }>({
@@ -96,5 +97,6 @@ export async function promptInput(
 		message: props.message,
 		type: 'input',
 	});
-	return response;
+	return response as any;
 }
+/* eslint-enable @typescript-eslint/no-unsafe-return */

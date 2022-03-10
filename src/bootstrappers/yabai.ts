@@ -5,39 +5,42 @@ import { pnpmBootstrapper } from '~/bootstrappers/pnpm.js';
 import { commandExists, runCommand } from '~/utils/command.js';
 import { getDotConfigFolderPath } from '~/utils/config.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
-import { promptYesNo } from '~/utils/input.js';
+import { promptYesNo } from '~/utils/prompt.js';
 
 export const yabaiBootstrapper = createBootstrapper({
-	async skip() {
-		return commandExists('yabai');
+	name: 'yabai',
+	async skip(context) {
+		return commandExists(context, 'yabai');
 	},
-	async bootstrap() {
+	async bootstrap(context) {
 		if (
-			await promptYesNo({
+			await promptYesNo(context, {
 				message:
 					'Do you want to install the yabai-master-stack-plugin that enables dwm-style master-stack layouts in Yabai?',
 			})
 		) {
-			await pnpmBootstrapper.bootstrap();
+			await pnpmBootstrapper.bootstrap(context);
 
 			const dotConfigFolderPath = await getDotConfigFolderPath();
-			await runCommand({
+			await runCommand(context, {
 				command: 'pnpm install --global yabai-master-stack-plugin',
 			});
 
-			const { stdout: yabaiPath } = await runCommand({
-				command: 'which yabai ',
+			const { stdout: yabaiPath } = await runCommand(context, {
+				command: 'which yabai',
 			});
 			const ymspConfig = {
 				yabaiPath,
 			};
 
-			const ymspConfigFolder = path.join(dotConfigFolderPath, 'ymsp');
-			await mkdirp(ymspConfigFolder);
-			await fs.promises.writeFile(
-				path.join(ymspConfigFolder, 'ymsp.config.json'),
-				JSON.stringify(ymspConfig)
-			);
+			if (!context.dryRun) {
+				const ymspConfigFolder = path.join(dotConfigFolderPath, 'ymsp');
+				await mkdirp(ymspConfigFolder);
+				await fs.promises.writeFile(
+					path.join(ymspConfigFolder, 'ymsp.config.json'),
+					JSON.stringify(ymspConfig)
+				);
+			}
 		}
 	},
 });

@@ -5,10 +5,12 @@ import type {
 import type { BootstrapperContext } from '~/types/context.js';
 
 export function createBootstrapper<BootstrapArgs>(
-	bootstrapper: CreateBootstrapperProps<BootstrapArgs>
+	props: CreateBootstrapperProps<BootstrapArgs>
 ): Bootstrapper<BootstrapArgs> {
 	return {
-		manualInterventionNeeded: bootstrapper.manualInterventionNeeded ?? false,
+		name: props.name,
+		description: props.description,
+		manualInterventionNeeded: props.manualInterventionNeeded ?? false,
 		async bootstrap(
 			context: BootstrapperContext,
 			args?: BootstrapArgs & {
@@ -16,10 +18,10 @@ export function createBootstrapper<BootstrapArgs>(
 			}
 		) {
 			if (args?.force) {
-				await bootstrapper.bootstrap(context, args as any);
+				await props.bootstrap(context, args as any);
 			} else {
-				if (!(await bootstrapper.skip?.(context, args as any))) {
-					await bootstrapper.bootstrap(context, args as any);
+				if (!(await props.skip?.(context, args as any))) {
+					await props.bootstrap(context, args as any);
 				}
 			}
 		},
