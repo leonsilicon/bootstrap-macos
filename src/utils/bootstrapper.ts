@@ -10,7 +10,7 @@ export function createBootstrapper<BootstrapArgs>(
 	return {
 		name: props.name,
 		description: props.description,
-		manualInterventionNeeded: props.manualInterventionNeeded ?? false,
+		needsManualIntervention: props.needsManualIntervention ?? false,
 		async bootstrap(
 			context: BootstrapperContext,
 			args?: BootstrapArgs & {

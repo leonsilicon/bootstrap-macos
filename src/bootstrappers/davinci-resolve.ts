@@ -6,7 +6,7 @@ import { pressToContinue } from '~/utils/prompt.js';
 
 export const davinciResolveBootstrapper = createBootstrapper({
 	name: 'Davinci Resolve',
-	manualInterventionNeeded: true,
+	needsManualIntervention: true,
 	async bootstrap(context) {
 		await open('https://www.blackmagicdesign.com/ca/products/davinciresolve/');
 

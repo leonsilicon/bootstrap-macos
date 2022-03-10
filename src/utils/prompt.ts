@@ -83,6 +83,7 @@ export async function promptAdminCredentials() {
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 type PromptInputProps = {
 	message: string;
+	password?: boolean;
 };
 export async function promptInput<Context extends BootstrapperContext>(
 	context: BootstrapperContext,
@@ -95,7 +96,7 @@ export async function promptInput<Context extends BootstrapperContext>(
 	const { response } = await inquirer.prompt<{ response: string }>({
 		name: 'response',
 		message: props.message,
-		type: 'input',
+		type: props.password ? 'password' : 'input',
 	});
 	return response as any;
 }

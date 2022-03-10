@@ -3,7 +3,7 @@ import type { BootstrapperContext } from '~/types/context.js';
 export type Bootstrapper<BootstrapArgs> = {
 	name: string;
 	description?: string;
-	manualInterventionNeeded: boolean;
+	needsManualIntervention: boolean;
 	bootstrap(
 		context: BootstrapperContext,
 		// Bootstrapper might not be called with any args
@@ -14,7 +14,7 @@ export type Bootstrapper<BootstrapArgs> = {
 export type CreateBootstrapperProps<BootstrapArgs> = {
 	name: string;
 	description?: string;
-	manualInterventionNeeded?: boolean;
+	needsManualIntervention?: boolean;
 	skip?(
 		context: BootstrapperContext,
 		args: BootstrapArgs

@@ -52,8 +52,16 @@ const selectedBootstrappers = selectedBootstrapperNames.map(
 );
 
 for (const bootstrapper of selectedBootstrappers) {
-	// eslint-disable-next-line no-await-in-loop
-	await bootstrapper.bootstrap({
-		dryRun: false,
-	});
+	try {
+		// eslint-disable-next-line no-await-in-loop
+		await bootstrapper.bootstrap({
+			dryRun: false,
+		});
+	} catch (error: unknown) {
+		console.error(
+			`Bootstrapper ${bootstrapper.name} failed with error: ${
+				(error as Error).message
+			}. Skipping.`
+		);
+	}
 }
