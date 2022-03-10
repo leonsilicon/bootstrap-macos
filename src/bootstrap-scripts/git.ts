@@ -1,13 +1,16 @@
+import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { runCommand } from '~/utils/command.js';
 
-export async function setupGitDefaults() {
-	await runCommand({
-		description: 'Set git default branch to main',
-		command: 'git config --global init.defaultBranch main',
-	});
+export const gitBoostrapper = createBootstrapper({
+	async bootstrap() {
+		await runCommand({
+			description: 'Set git default branch to main',
+			command: 'git config --global init.defaultBranch main',
+		});
 
-	await runCommand({
-		description: 'Set git pull configuration',
-		command: 'git config pull.rebase true',
-	});
-}
+		await runCommand({
+			description: 'Set git pull configuration',
+			command: 'git config pull.rebase true',
+		});
+	},
+});

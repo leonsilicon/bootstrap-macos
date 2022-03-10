@@ -4,6 +4,7 @@ export function createBootstrapper<T extends Bootstrapper<unknown>>(
 	bootstrapper: T
 ) {
 	return {
+		manualInterventionNeeded: bootstrapper.manualInterventionNeeded ?? false,
 		skip: bootstrapper.skip,
 		async bootstrap(
 			props?: Parameters<T['bootstrap']>['0'] & { force?: boolean }

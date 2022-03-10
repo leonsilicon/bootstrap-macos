@@ -1,8 +1,11 @@
-import { installPyenv } from '~/bootstrap-scripts/python/pyenv.js';
+import { pyenvBootstrapper } from '~/bootstrap-scripts/python/pyenv.js';
+import { createBootstrapper } from '~/utils/bootstrapper.js';
 
-type InstallPythonProps = {
+type BootstrapProps = {
 	version: string;
 };
-export async function installPython({ version }: InstallPythonProps) {
-	await installPyenv();
-}
+export const pythonBootstrapper = createBootstrapper({
+	async bootstrap(_props?: BootstrapProps) {
+		await pyenvBootstrapper.bootstrap();
+	},
+});

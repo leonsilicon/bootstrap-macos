@@ -1,7 +1,7 @@
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 
-export const githubBootstrapper = createBootstrapper({
+export const displayBootstrapper = createBootstrapper({
 	async bootstrap() {
-		// TODO: set up github SSH
+		// todo
 	},
 });
