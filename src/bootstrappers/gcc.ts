@@ -3,7 +3,7 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 export const gccBootstrapper = createBootstrapper({
 	name: 'gcc',
 	bootstrap() {
-		// todo
+		// todo: set g++ alias and make sure bits/stdc++ works
 	},
 });
 

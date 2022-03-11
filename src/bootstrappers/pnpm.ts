@@ -19,6 +19,7 @@ export const pnpmBootstrapper = createBootstrapper<{ installNode: boolean }>({
 				command: 'pnpm env --global use lts',
 			});
 		}
+		// todo: npm login
 	},
 });
 
