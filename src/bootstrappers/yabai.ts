@@ -44,3 +44,5 @@ export const yabaiBootstrapper = createBootstrapper({
 		}
 	},
 });
+
+export default yabaiBootstrapper;

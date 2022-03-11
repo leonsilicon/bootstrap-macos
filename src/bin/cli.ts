@@ -2,31 +2,35 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import inquirer from 'inquirer';
 import PressToContinue from 'inquirer-press-to-continue';
-import AutocompletePrompt from 'inquirer-autocomplete-prompt';
-import { join } from 'desm';
+import SuperCheckboxPrompt from 'inquirer-super-checkbox-prompt';
+import { join, dirname } from 'desm';
+import recursiveReadDir from 'recursive-readdir';
 import type { Bootstrapper } from '~/types/bootstrapper.js';
 
 inquirer.registerPrompt('press-to-continue', PressToContinue);
-inquirer.registerPrompt('autocomplete', AutocompletePrompt);
+inquirer.registerPrompt('super-checkbox', SuperCheckboxPrompt);
 
 const bootstrappersFolder = join(import.meta.url, '../bootstrappers');
 
-declare module 'inquirer' {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface QuestionMap<T> {
-		autocomplete: AutocompletePrompt.AutocompleteQuestionOptions;
-	}
-}
-
-const bootstrapperFiles = fs.readdirSync(bootstrappersFolder);
+const bootstrapperFiles = await recursiveReadDir(bootstrappersFolder);
 
 const bootstrappersMap = Object.fromEntries(
 	await Promise.all(
 		bootstrapperFiles.map(async (bootstrapperFilePath) => {
+			const bootstrapperPath = path.relative(
+				dirname(import.meta.url),
+				path.dirname(bootstrapperFilePath)
+			);
 			const filename = path.parse(bootstrapperFilePath).name;
 			const { default: bootstrapper } = (await import(
-				`../bootstrappers/${filename}.js`
+				`${bootstrapperPath}/${filename}.js`
 			)) as { default: Bootstrapper<unknown> };
+			if (bootstrapper === undefined) {
+				throw new Error(
+					`Bootstrapper not found in file ${bootstrapperFilePath}`
+				);
+			}
+
 			return [bootstrapper.name, bootstrapper] as const;
 		})
 	)
@@ -36,7 +40,7 @@ const { selectedBootstrapperNames } = await inquirer.prompt<{
 	selectedBootstrapperNames: string[];
 }>({
 	name: 'selectedBootstrapperNames',
-	type: 'autocomplete',
+	type: 'super-checkbox',
 	source: async (_selectedBootstrapperNames, input) =>
 		Object.values(bootstrappersMap)
 			.filter(
@@ -46,6 +50,8 @@ const { selectedBootstrapperNames } = await inquirer.prompt<{
 			)
 			.map((bootstrapper) => bootstrapper.name),
 });
+
+console.log(selectedBootstrapperNames)
 
 const selectedBootstrappers = selectedBootstrapperNames.map(
 	(selectedBootstrapperName) => bootstrappersMap[selectedBootstrapperName]!
