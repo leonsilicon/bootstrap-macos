@@ -41,6 +41,8 @@ export const latexBootstrapper = createBootstrapper({
 			command: 'tlmgr update --self --all',
 			sudo: true,
 		});
+
+		// todo: install fonts
 	},
 });
 

@@ -24,6 +24,8 @@ export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 				command: `pyenv install -v ${args.version}`,
 			});
 		}
+
+		// todo: install python-tk?
 	},
 });
 
