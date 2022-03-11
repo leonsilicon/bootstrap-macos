@@ -1,10 +1,10 @@
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 
-export const twitterBootstrapper = createBootstrapper({
+export const twitterPureBootstrapper = createBootstrapper({
 	name: 'Twitter',
 	bootstrap() {
 		// todo: add entry in /usr/local to reroute twitter to twitter pure
 	},
 });
 
-export default twitterBootstrapper;
+export default twitterPureBootstrapper;
