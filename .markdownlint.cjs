@@ -1,1 +1,1 @@
-module.exports = reuqire("@leonzalion/configs/markdownlint.cjs");
+module.exports = require("@leonzalion/configs/markdownlint.cjs");
