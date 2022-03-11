@@ -5,6 +5,8 @@ import { outdent } from 'outdent';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 
+// TODO: https://gist.github.com/simme/1297707
+
 const tmuxConf = outdent`
   unbind-key C-b
   set -g prefix 'BTab'

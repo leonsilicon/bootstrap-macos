@@ -1,9 +1,10 @@
 import { createBootstrapper } from '~/utils/bootstrapper.js';
+import { brewInstall } from '~/utils/brew.js';
 
 export const youtubedlBootstrapper = createBootstrapper({
 	name: 'youtube-dl',
-	bootstrap() {
-		// todo: install yt-dlp
+	async bootstrap(context) {
+		await brewInstall(context, 'yt-dlp/taps/yt-dlp');
 	},
 });
 
