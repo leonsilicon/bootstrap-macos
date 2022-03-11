@@ -6,3 +6,5 @@ export const hackintoshBootstrapper = createBootstrapper({
 		// todo: install some useful hackintosh utilities
 	},
 });
+
+export default hackintoshBootstrapper;

@@ -6,3 +6,5 @@ export const alfredBootstrapper = createBootstrapper({
 		// todo: maybe install some alfred plugins?
 	},
 });
+
+export default alfredBootstrapper;

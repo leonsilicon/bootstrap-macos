@@ -6,3 +6,5 @@ export const firefoxBootstrapper = createBootstrapper({
 		// todo: install useful firefox extensions
 	},
 });
+
+export default firefoxBootstrapper;
