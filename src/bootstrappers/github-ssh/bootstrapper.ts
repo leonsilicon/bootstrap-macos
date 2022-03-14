@@ -40,9 +40,9 @@ export const githubBootstrapper = createBootstrapper({
 			command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
 		});
 
-		sshKeygenProcess.send('\n'); // Saves the key in the default place
-		sshKeygenProcess.send(`\n${passphrase}`); // SSH "Enter passphrase" prompt
-		sshKeygenProcess.send(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
+		sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
+		sshKeygenProcess.stdin?.write(`\n${passphrase}`); // SSH "Enter passphrase" prompt
+		sshKeygenProcess.stdin?.write(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
 
 		await sshKeygenProcess;
 
