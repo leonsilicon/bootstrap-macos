@@ -14,26 +14,28 @@ const bootstrappersFolder = join(import.meta.url, '../bootstrappers');
 
 const bootstrapperFiles = await recursiveReadDir(bootstrappersFolder);
 
-const bootstrappersMap = Object.fromEntries(
-	await Promise.all(
-		bootstrapperFiles.map(async (bootstrapperFilePath) => {
-			const bootstrapperPath = path.relative(
-				dirname(import.meta.url),
-				path.dirname(bootstrapperFilePath)
-			);
-			const filename = path.parse(bootstrapperFilePath).name;
-			const { default: bootstrapper } = (await import(
-				`${bootstrapperPath}/${filename}.js`
-			)) as { default: Bootstrapper<unknown> };
-			if (bootstrapper === undefined) {
-				throw new Error(
-					`Bootstrapper not found in file ${bootstrapperFilePath}`
-				);
-			}
+const bootstrapperEntries = await Promise.all(
+	bootstrapperFiles.map(async (bootstrapperFilePath) => {
+		const bootstrapperPath = path.relative(
+			dirname(import.meta.url),
+			path.dirname(bootstrapperFilePath)
+		);
+		const filename = path.parse(bootstrapperFilePath).name;
+		const { default: bootstrapper } = (await import(
+			`${bootstrapperPath}/${filename}.js`
+		)) as { default: Bootstrapper<unknown> };
+		if (bootstrapper === undefined || bootstrapper.todo) {
+			return undefined;
+		}
 
-			return [bootstrapper.name, bootstrapper] as const;
-		})
-	)
+		return [bootstrapper.name, bootstrapper] as const;
+	})
+);
+
+const bootstrappersMap = Object.fromEntries(
+	bootstrapperEntries.filter((entry) => entry !== undefined) as Array<
+		[string, Bootstrapper<unknown>]
+	>
 );
 
 const { selectedBootstrapperNames } = await inquirer.prompt<{
@@ -51,7 +53,7 @@ const { selectedBootstrapperNames } = await inquirer.prompt<{
 			.map((bootstrapper) => bootstrapper.name),
 });
 
-console.log(selectedBootstrapperNames)
+console.log(selectedBootstrapperNames);
 
 const selectedBootstrappers = selectedBootstrapperNames.map(
 	(selectedBootstrapperName) => bootstrappersMap[selectedBootstrapperName]!

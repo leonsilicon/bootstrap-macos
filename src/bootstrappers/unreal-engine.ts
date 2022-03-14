@@ -6,3 +6,5 @@ export const unrealEngineBootstrapper = createBootstrapper({
 		// todo
 	},
 });
+
+export default unrealEngineBootstrapper;

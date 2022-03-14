@@ -6,3 +6,5 @@ export const vscodeBootstrapper = createBootstrapper({
 		// todo: set up useful VSCode extensions and settings and shortcuts and vsce
 	},
 });
+
+export default vscodeBootstrapper;
