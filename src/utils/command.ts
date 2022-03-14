@@ -108,6 +108,6 @@ export async function runCommands(
 ): Promise<void> {
 	for (const command of props.commands) {
 		// eslint-disable-next-line no-await-in-loop
-		await runCommand(context, { ...props, command });
+		await runCommand(context, { stdio: 'inherit', ...props, command });
 	}
 }
