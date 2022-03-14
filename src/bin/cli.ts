@@ -44,7 +44,9 @@ const { selectedBootstrapperNames } = await inquirer.prompt<{
 	selectedBootstrapperNames: string[];
 }>({
 	name: 'selectedBootstrapperNames',
+	message: 'Select the bootstrappers you want to run',
 	type: 'super-checkbox',
+	searchable: true,
 	source: async (_selectedBootstrapperNames, input) =>
 		Object.values(bootstrappersMap)
 			.filter(
