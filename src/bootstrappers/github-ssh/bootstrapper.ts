@@ -52,11 +52,12 @@ export const githubBootstrapper = createBootstrapper({
 				command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
 			});
 
+			sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
+
 			if (overwriteSshKey) {
 				sshKeygenProcess.stdin?.write('y\n');
 			}
 
-			sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
 			sshKeygenProcess.stdin?.write(`\n${passphrase}`); // SSH "Enter passphrase" prompt
 			sshKeygenProcess.stdin?.write(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
 
