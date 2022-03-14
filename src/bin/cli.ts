@@ -1,4 +1,3 @@
-import * as fs from 'node:fs';
 import * as path from 'node:path';
 import inquirer from 'inquirer';
 import PressToContinue from 'inquirer-press-to-continue';

@@ -1,11 +1,11 @@
 import * as path from 'node:path';
 import * as os from 'node:os';
+import * as fs from 'node:fs';
 import onetime from 'onetime';
+import { outdent } from 'outdent';
 import type { AddToFileOptions } from '~/utils/file.js';
 import { addToFile } from '~/utils/file.js';
 import type { BootstrapperContext } from '~/types/context.js';
-import * as fs from 'fs';
-import { outdent } from 'outdent';
 import { gitClone } from '~/utils/git.js';
 
 export const getZshrcPath = onetime(() => path.join(os.homedir(), '.zshrc'));
@@ -46,7 +46,7 @@ export async function addOhMyZshPluginToZshrc(
 	if (context.dryRun) return;
 	const zshrcPath = getZshrcPath();
 	const zshrc = await fs.promises.readFile(zshrcPath, 'utf-8');
-	const pluginsMatch = zshrc.match(/plugins=\((.*)\)/s) ?? undefined;
+	const pluginsMatch = (/plugins=\((.*)\)/s.exec(zshrc)) ?? undefined;
 
 	if (pluginsMatch === undefined) {
 		await addToZshrc(context, {
@@ -69,8 +69,8 @@ export async function addOhMyZshPluginToZshrc(
 		await addToZshrc(context, {
 			content: newPluginsString,
 			replace: {
-				start: pluginsMatch.index!,
-				end: pluginsMatch.index! + pluginsMatch[0]!.length,
+				start: pluginsMatch.index,
+				end: pluginsMatch.index + pluginsMatch[0]!.length,
 			},
 		});
 	}

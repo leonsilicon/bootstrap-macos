@@ -1,4 +1,4 @@
-import { BootstrapperContext } from '~/types/context.js';
+import type { BootstrapperContext } from '~/types/context.js';
 import { runCommand } from '~/utils/command.js';
 
 type GitCloneProps = {

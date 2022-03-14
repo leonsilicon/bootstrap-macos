@@ -1,7 +1,7 @@
-import * as path from 'path';
-import * as os from 'os';
+import * as path from 'node:path';
+import * as os from 'node:os';
 import * as fs from 'node:fs';
-import zshBootstrapper from '~/bootstrappers/zsh.js';
+import zshBootstrapper from '~/bootstrappers/zsh/zsh.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { promptInput } from '~/utils/prompt.js';
 import { addOhMyZshPlugin } from '~/utils/zsh.js';
