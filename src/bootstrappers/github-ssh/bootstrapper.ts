@@ -29,7 +29,7 @@ export const githubBootstrapper = createBootstrapper({
 			const emailAddress = context.dryRun
 				? 'email@example.com'
 				: await promptInput(context, {
-						message: 'Please enter your GitHub email address',
+						message: 'Please enter your public GitHub email address',
 				  });
 
 			const passphrase = await promptInput(context, {
@@ -89,7 +89,7 @@ export const githubBootstrapper = createBootstrapper({
 
 		await runCommand(context, {
 			description: 'Add SSH private key to ssh-agent',
-			command: 'ssh-add -K ~/.ssh/id_ed25519',
+			command: ['ssh-add', '-K', path.join(os.homedir(), '.ssh/id_ed25519')],
 		});
 
 		await open('https://github.com/settings/ssh/new');
