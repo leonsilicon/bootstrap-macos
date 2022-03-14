@@ -1,4 +1,3 @@
-import { test } from 'vitest';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand } from '~/utils/command.js';
@@ -29,13 +28,5 @@ export const dopplerBootstrapper = createBootstrapper({
 		// TODO: copy auth code
 	},
 });
-
-export function dopplerBootstrapperTest() {
-	test('doppler bootstrapper', async () => {
-		await dopplerBootstrapper.bootstrap({
-			dryRun: false,
-		});
-	});
-}
 
 export default dopplerBootstrapper;
