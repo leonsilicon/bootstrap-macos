@@ -13,6 +13,14 @@ export const homebrewBootstrapper = createBootstrapper({
 		});
 
 		await runCommand(context, {
+			description: 'Adds Homebrew packages to the PATH',
+			link: 'https://docs.brew.sh/FAQ#my-mac-apps-dont-find-homebrew-utilities',
+			command: 'launchctl config user path "$(brew --prefix)/bin:$PATH"',
+			shell: true,
+			sudo: true,
+		});
+
+		await runCommand(context, {
 			description: 'Installs brew-file',
 			link: 'https://homebrew-file.readthedocs.io/en/latest/installation.html',
 			command: 'brew install rcmdnk/file/brew-file',
