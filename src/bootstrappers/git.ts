@@ -13,6 +13,8 @@ export const gitBootstrapper = createBootstrapper({
 			description: 'Set git pull configuration',
 			command: 'git config pull.rebase true',
 		});
+
+		await brewInstall(context, 'git-subrepo');
 	},
 });
 

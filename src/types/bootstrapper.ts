@@ -5,6 +5,7 @@ export type Bootstrapper<BootstrapArgs> = {
 	link?: string;
 	description?: string;
 	needsManualIntervention: boolean;
+	needsReboot: boolean;
 	bootstrap(
 		context: BootstrapperContext,
 		// Bootstrapper might not be called with any args
@@ -17,6 +18,7 @@ export type CreateBootstrapperProps<BootstrapArgs> = {
 	description?: string;
 	link?: string;
 	needsManualIntervention?: boolean;
+	needsReboot?: boolean;
 	skip?(
 		context: BootstrapperContext,
 		args: BootstrapArgs
