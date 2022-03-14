@@ -1,7 +1,6 @@
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { runCommand } from '~/utils/command.js';
-import { sendMessage } from '~/utils/message.js';
-import { addToZshrc } from '~/utils/zsh.js';
+import { addOhMyZshPlugin, addToZshrc } from '~/utils/zsh.js';
 
 export const zshBootstrapper = createBootstrapper({
 	name: 'zsh',
@@ -11,6 +10,7 @@ export const zshBootstrapper = createBootstrapper({
 			link: 'https://ohmyz.sh',
 			command:
 				'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --keep-zshrc',
+			shell: true,
 		});
 
 		await addToZshrc(context, {
@@ -22,7 +22,15 @@ export const zshBootstrapper = createBootstrapper({
 			content: 'source $ZSH/oh-my-zsh.sh',
 		});
 
-		await sendMessage(context, 'Setting up zsh-autocomplete');
+		await addOhMyZshPlugin(context, {
+			pluginName: 'zsh-autocomplete',
+			repository: 'marlonrichert/zsh-autocomplete',
+		});
+
+		await addOhMyZshPlugin(context, {
+			pluginName: 'zsh-syntax-highlighting',
+			repository: 'zsh-users/zsh-syntax-highlighting',
+		});
 	},
 });
 
