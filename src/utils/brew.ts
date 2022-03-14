@@ -1,4 +1,4 @@
-import { homebrewBootstrapper } from '~/bootstrappers/homebrew.js';
+import { homebrewBootstrapper } from '~/bootstrappers/homebrew/bootstrapper.js';
 import type { BootstrapperContext } from '~/types/context.js';
 import { runCommand } from '~/utils/command.js';
 

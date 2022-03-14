@@ -1,5 +1,5 @@
 import open from 'open';
-import { pythonBootstrapper } from '~/bootstrappers/python/python.js';
+import { pythonBootstrapper } from '~/bootstrappers/python/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { sendMessage } from '~/utils/message.js';
 import { pressToContinue } from '~/utils/prompt.js';

@@ -1,4 +1,4 @@
-import { gokuRakuJoudoBootstrapper } from '~/bootstrappers/goku-raku-joudo/goku-raku-joudo.js';
+import { gokuRakuJoudoBootstrapper } from '~/bootstrappers/goku-raku-joudo/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { promptYesNo } from '~/utils/prompt.js';

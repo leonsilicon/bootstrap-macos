@@ -1,4 +1,4 @@
-import pnpmBootstrapper from '~/bootstrappers/pnpm/bootstrapper';
+import pnpmBootstrapper from '~/bootstrappers/pnpm/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { runCommand } from '~/utils/command.js';
 
