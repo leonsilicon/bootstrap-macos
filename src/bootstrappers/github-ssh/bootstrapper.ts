@@ -9,8 +9,8 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { sendMessage } from '~/utils/message.js';
 
 export const githubBootstrapper = createBootstrapper({
-	needsManualIntervention: true,
 	name: 'GitHub SSH',
+	needsManualIntervention: true,
 	async bootstrap(context) {
 		// https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 

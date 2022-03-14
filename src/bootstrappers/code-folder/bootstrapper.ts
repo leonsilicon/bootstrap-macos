@@ -3,7 +3,7 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { getCodeFolderPath } from '~/utils/paths.js';
 
 export const codeFolderBootstrapper = createBootstrapper({
-	name: '`~/code` folder',
+	name: '~/code folder',
 	async bootstrap(context) {
 		if (!context.dryRun) {
 			const codeFolderPath = getCodeFolderPath();

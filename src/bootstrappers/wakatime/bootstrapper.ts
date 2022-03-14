@@ -31,3 +31,5 @@ export const wakatimeBootstrapper = createBootstrapper({
 		// todo: install wakatime extensions for various programs
 	},
 });
+
+export default wakatimeBootstrapper;
