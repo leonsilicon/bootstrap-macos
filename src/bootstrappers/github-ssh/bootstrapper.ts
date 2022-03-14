@@ -3,7 +3,7 @@ import * as os from 'node:os';
 import * as fs from 'node:fs';
 import { outdent } from 'outdent';
 import open from 'open';
-import { pressToContinue, promptInput } from '~/utils/prompt.js';
+import { pressToContinue, promptInput, promptYesNo } from '~/utils/prompt.js';
 import { runCommand } from '~/utils/command.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { sendMessage } from '~/utils/message.js';
@@ -14,37 +14,50 @@ export const githubBootstrapper = createBootstrapper({
 	async bootstrap(context) {
 		// https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-		const emailAddress = context.dryRun
-			? 'email@example.com'
-			: await promptInput(context, {
-					message: 'Please enter your GitHub email address',
-			  });
-
-		const passphrase = await promptInput(context, {
-			message: 'Please enter an SSH passphrase',
-			password: true,
-		});
-
-		const confirmPassphrase = await promptInput(context, {
-			message: 'Enter same passphrase again',
-			password: true,
-		});
-
-		if (passphrase !== confirmPassphrase) {
-			throw new Error('Passphrase was not equal to confirm passphrase.');
+		const sshKeyExists = fs.existsSync(
+			path.join(os.homedir(), '.ssh/id_ed25519')
+		);
+		let overwriteSshKey = false;
+		if (sshKeyExists) {
+			const response = await promptYesNo(context, {
+				message: 'The SSH key already exists. Would you like to overwrite it?',
+			});
+			overwriteSshKey = response;
 		}
 
-		const sshKeygenProcess = runCommand(context, {
-			description: `Generating a new SSH Key for email ${emailAddress}`,
-			link: 'https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key',
-			command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
-		});
+		if (!sshKeyExists || overwriteSshKey) {
+			const emailAddress = context.dryRun
+				? 'email@example.com'
+				: await promptInput(context, {
+						message: 'Please enter your GitHub email address',
+				  });
 
-		sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
-		sshKeygenProcess.stdin?.write(`\n${passphrase}`); // SSH "Enter passphrase" prompt
-		sshKeygenProcess.stdin?.write(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
+			const passphrase = await promptInput(context, {
+				message: 'Please enter an SSH passphrase',
+				password: true,
+			});
 
-		await sshKeygenProcess;
+			const confirmPassphrase = await promptInput(context, {
+				message: 'Enter same passphrase again',
+				password: true,
+			});
+
+			if (passphrase !== confirmPassphrase) {
+				throw new Error('Passphrase was not equal to confirm passphrase.');
+			}
+
+			const sshKeygenProcess = runCommand(context, {
+				description: `Generating a new SSH Key for email ${emailAddress}`,
+				link: 'https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key',
+				command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
+			});
+
+			sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
+			sshKeygenProcess.stdin?.write(`\n${passphrase}`); // SSH "Enter passphrase" prompt
+			sshKeygenProcess.stdin?.write(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
+
+			await sshKeygenProcess;
+		}
 
 		await sendMessage(context, {
 			message: 'Adding SSH key to the ssh-agent',
