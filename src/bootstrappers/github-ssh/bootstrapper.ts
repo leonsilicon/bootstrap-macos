@@ -34,16 +34,17 @@ export const githubBootstrapper = createBootstrapper({
 			throw new Error('Passphrase was not equal to confirm passphrase.');
 		}
 
-		await runCommand(context, {
+		const sshKeygenProcess = runCommand(context, {
 			description: `Generating a new SSH Key for email ${emailAddress}`,
 			link: 'https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key',
 			command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
-			input:
-				// prettier-ignore
-				'\n' + // Saves the key in the default place
-				passphrase + '\n' + // SSH "Enter passphrase" prompt
-				confirmPassphrase + '\n', // SSH "Enter same passphrase again" prompt
 		});
+
+		sshKeygenProcess.send('\n'); // Saves the key in the default place
+		sshKeygenProcess.send(`\n${passphrase}`); // SSH "Enter passphrase" prompt
+		sshKeygenProcess.send(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
+
+		await sshKeygenProcess;
 
 		await sendMessage(context, {
 			message: 'Adding SSH key to the ssh-agent',
@@ -53,6 +54,7 @@ export const githubBootstrapper = createBootstrapper({
 		await runCommand(context, {
 			description: 'Starting the ssh-agent in the background.',
 			command: 'eval "$(ssh-agent -s)"',
+			shell: true,
 		});
 
 		if (!context.dryRun) {

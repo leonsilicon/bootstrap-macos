@@ -4,7 +4,7 @@ export const alfredBootstrapper = createBootstrapper({
 	name: 'Alfred',
 	todo: true,
 	bootstrap() {
-		// todo: maybe install some alfred plugins?
+		// todo: maybe install some alfred plugins? and set shortcut
 	},
 });
 

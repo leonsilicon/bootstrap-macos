@@ -26,9 +26,12 @@ export async function commandExists(
 		// If the file doesn't exist, check if command exists in path
 		try {
 			const cleanedCommandName = cleanInput(commandName);
-			const { stdout } = await execaCommand(outdent`
-				command -v ${cleanedCommandName} 2>/dev/null && { echo >&1 '${cleanedCommandName}'; exit 0; }
-			`);
+			const { stdout } = await runCommand(context, {
+				description: `Checking if ${cleanedCommandName} exists`,
+				command: outdent`
+					command -v ${cleanedCommandName} 2>/dev/null && { echo >&1 '${cleanedCommandName}'; exit 0; }
+				`,
+			});
 
 			// Non-empty stdout means that the command exists
 			return Boolean(stdout);
@@ -96,7 +99,6 @@ export function runCommand<Context extends BootstrapperContext>(
 		}
 	}
 }
-
 /* eslint-enable @typescript-eslint/no-unsafe-return */
 
 export type RunCommandsProps = Omit<RunCommandProps, 'command'> & {
