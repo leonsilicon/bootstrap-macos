@@ -5,7 +5,6 @@ export const chromeBootstrapper = createBootstrapper({
 	name: 'Chrome',
 	async bootstrap(context) {
 		await brewInstall(context, 'google-chrome', { cask: true });
-		// todo
 	},
 });
 

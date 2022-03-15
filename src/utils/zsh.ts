@@ -3,12 +3,16 @@ import * as os from 'node:os';
 import * as fs from 'node:fs';
 import onetime from 'onetime';
 import { outdent } from 'outdent';
+import shellEscape from 'shell-escape';
 import type { AddToFileOptions } from '~/utils/file.js';
 import { addToFile } from '~/utils/file.js';
 import type { BootstrapperContext } from '~/types/context.js';
 import { gitClone } from '~/utils/git.js';
 
 export const getZshrcPath = onetime(() => path.join(os.homedir(), '.zshrc'));
+export const getZshAliasesPath = onetime(() =>
+	path.join(os.homedir(), '.zsh_aliases')
+);
 
 type AddToZshrcOptions = Omit<AddToFileOptions, 'filePath'>;
 export async function addToZshrc(
@@ -36,6 +40,26 @@ export async function addToZprofile(
 	});
 }
 
+type AddZshAliasProps = { name: string; value: string; doubleQuotes?: boolean };
+export async function addZshAlias(
+	context: BootstrapperContext,
+	{ name, value, doubleQuotes }: AddZshAliasProps
+) {
+	if (!/^\w+$/.test(name)) throw new Error('Invalid alias.');
+
+	if (doubleQuotes) {
+		await addToFile(context, {
+			filePath: getZshAliasesPath(),
+			content: `alias ${name}="${value.replaceAll('"', '\\"')}"`,
+		});
+	} else {
+		await addToFile(context, {
+			filePath: getZshAliasesPath(),
+			content: `alias ${name}='${value.replaceAll("'", `'"'"'`)}'`,
+		});
+	}
+}
+
 type AddOhMyZshPluginToZshrcProps = {
 	pluginName: string;
 };
@@ -46,7 +70,7 @@ export async function addOhMyZshPluginToZshrc(
 	if (context.dryRun) return;
 	const zshrcPath = getZshrcPath();
 	const zshrc = await fs.promises.readFile(zshrcPath, 'utf-8');
-	const pluginsMatch = (/plugins=\((.*)\)/s.exec(zshrc)) ?? undefined;
+	const pluginsMatch = /plugins=\((.*)\)/s.exec(zshrc) ?? undefined;
 
 	if (pluginsMatch === undefined) {
 		await addToZshrc(context, {

@@ -9,6 +9,15 @@ export async function gitClone(
 	context: BootstrapperContext,
 	{ repository, destinationDir }: GitCloneProps
 ) {
+	repository = gitRepositoryToUrl(repository);
+	await runCommand(context, {
+		description: `Cloning repository ${repository}`,
+		link: repository,
+		command: ['git', 'clone', repository, destinationDir],
+	});
+}
+
+export function gitRepositoryToUrl(repository: string) {
 	if (repository.startsWith('http://')) {
 		throw new Error(
 			'Refusing to clone http://-prefixed repository link. Please use https:// instead.'
@@ -19,9 +28,9 @@ export async function gitClone(
 		repository = `https://github.com/${repository}`;
 	}
 
-	await runCommand(context, {
-		description: `Cloning repository ${repository}`,
-		link: repository,
-		command: ['git', 'clone', repository, destinationDir],
-	});
+	return repository;
+}
+
+export function getRepositoryIdentifier(repository: string) {
+	return gitRepositoryToUrl(repository).split('/').slice(-2).join('/');
 }

@@ -1,0 +1,1 @@
+// disable spotlight search, screenshot

@@ -5,6 +5,7 @@ import { runCommand } from '~/utils/command.js';
 export const dopplerBootstrapper = createBootstrapper({
 	name: 'Doppler',
 	needsManualIntervention: true,
+	todo: true,
 	async bootstrap(context) {
 		// Prerequisite. gnupg is required for binary signature verification
 		await brewInstall(context, 'gnupu');

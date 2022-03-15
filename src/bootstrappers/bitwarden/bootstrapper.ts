@@ -1,7 +1,9 @@
 import pnpmBootstrapper from '~/bootstrappers/pnpm/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
+import { installChromeExtension } from '~/utils/chrome.js';
 import { runCommand } from '~/utils/command.js';
 
+const bitwardenChromeExtensionId = 'nngceckbapebfimnlniiiahkandclblb';
 export const bitwardenBootstrapper = createBootstrapper({
 	name: 'Bitwarden',
 	async bootstrap(context) {
@@ -13,7 +15,9 @@ export const bitwardenBootstrapper = createBootstrapper({
 			command: 'pnpm install --global @bitwarden/cli',
 		});
 
-		// todo: install cli and browser extension
+		await installChromeExtension(context, {
+			extensionId: bitwardenChromeExtensionId,
+		});
 	},
 });
 
