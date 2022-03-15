@@ -13,6 +13,7 @@ export const pythonPackagesBootstrapper = createBootstrapper({
 		await pipInstall(context, 'scipy');
 		await pipInstall(context, 'matplotlib');
 		await pipInstall(context, 'pytest');
+		await pipInstall(context, 'tk');
 	},
 });
 

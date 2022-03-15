@@ -1,9 +1,13 @@
 import pyenvBootstrapper from '~/bootstrappers/pyenv/bootstrapper.js';
+import pythonPackagesBootstrapper from '~/bootstrappers/python-packages/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
-import { runCommand } from '~/utils/command.js';
+import { commandExists, runCommand } from '~/utils/command.js';
 
 export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 	name: 'Python',
+	async skip(context) {
+		return commandExists(context, 'python');
+	},
 	async bootstrap(context, args) {
 		await pyenvBootstrapper.bootstrap(context);
 
@@ -25,7 +29,7 @@ export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 			});
 		}
 
-		// todo: install python-tk?
+		await pythonPackagesBootstrapper.bootstrap(context);
 	},
 });
 
