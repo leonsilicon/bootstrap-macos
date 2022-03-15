@@ -50,17 +50,22 @@ export const githubBootstrapper = createBootstrapper({
 			const sshKeygenProcess = runCommand(context, {
 				description: `Generating a new SSH Key for email ${emailAddress}`,
 				link: 'https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key',
-				command: ['ssh-keygen', '-t', 'ed25519', '-C', emailAddress],
+				command: [
+					'ssh-keygen',
+					'-t',
+					'ed25519',
+					'-C',
+					emailAddress,
+					'-N',
+					passphrase === '' ? '""' : passphrase,
+				],
+				stdout: 'inherit',
+				stdin: 'pipe',
 			});
-
-			sshKeygenProcess.stdin?.write('\n'); // Saves the key in the default place
 
 			if (overwriteSshKey) {
 				sshKeygenProcess.stdin?.write('y\n');
 			}
-
-			sshKeygenProcess.stdin?.write(`\n${passphrase}`); // SSH "Enter passphrase" prompt
-			sshKeygenProcess.stdin?.write(`\n${confirmPassphrase}`); // SSH "Enter same passphrase again" prompt
 
 			await sshKeygenProcess;
 		}
