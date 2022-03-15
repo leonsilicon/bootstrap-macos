@@ -43,9 +43,9 @@ export const latexBootstrapper = createBootstrapper({
 		}
 
 		await pythonPipBootstrapper.bootstrap(context, { python2: true });
-		await runCommand(context, {
+		await runCommands(context, {
 			description: 'Installing pygments (needed for the minted LaTeX package)',
-			command: 'python2 -m pip install pygments',
+			commands: ['python2 -m pip install pygments', 'pip install pygments'],
 		});
 
 		await runCommand(context, {
