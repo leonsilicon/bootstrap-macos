@@ -13,12 +13,19 @@ export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 
 		// If a specific version isn't specified, install the latest
 		if (args?.version === undefined) {
+			const { stdout: latestPython } = await runCommand(context, {
+				command: 'pyenv install --list | grep -v - | grep -v b | tail -1',
+				shell: true,
+			});
+
 			await runCommand(context, {
 				description: 'Installing the latest version of Python using pyenv',
 				link: 'https://stackoverflow.com/a/33423958',
-				command:
-					'pyenv install $(pyenv install --list | grep -v - | grep -v b | tail -1)',
-				shell: true,
+				command: ['pyenv', 'install', latestPython],
+			});
+
+			await runCommand(context, {
+				command: ['pyenv', 'global', latestPython],
 			});
 		}
 		// Install a specific version of Python
