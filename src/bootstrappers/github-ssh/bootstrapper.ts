@@ -3,6 +3,7 @@ import * as os from 'node:os';
 import * as fs from 'node:fs';
 import { outdent } from 'outdent';
 import open from 'open';
+import copy from 'copy-to-clipboard';
 import { pressToContinue, promptInput, promptYesNo } from '~/utils/prompt.js';
 import { runCommand } from '~/utils/command.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
@@ -92,6 +93,14 @@ export const githubBootstrapper = createBootstrapper({
 			description: 'Add SSH private key to ssh-agent',
 			command: ['ssh-add', '-K', path.join(os.homedir(), '.ssh/id_ed25519')],
 		});
+
+		if (!context.dryRun) {
+			const sshKey = await fs.promises.readFile(
+				path.join(os.homedir(), '.ssh/id_ed25519'),
+				'utf8'
+			);
+			copy(sshKey);
+		}
 
 		await open('https://github.com/settings/ssh/new');
 

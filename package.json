@@ -25,6 +25,7 @@
 		"app-exists": "^2.1.1",
 		"camelcase-keys": "^7.0.2",
 		"change-case": "^4.1.2",
+		"copy-to-clipboard": "^3.3.1",
 		"desm": "^1.2.0",
 		"execa": "^6.1.0",
 		"inquirer": "^8.2.1",

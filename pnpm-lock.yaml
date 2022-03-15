@@ -11,6 +11,7 @@ specifiers:
   app-exists: ^2.1.1
   camelcase-keys: ^7.0.2
   change-case: ^4.1.2
+  copy-to-clipboard: ^3.3.1
   desm: ^1.2.0
   eslint: ^8.10.0
   execa: ^6.1.0
@@ -37,6 +38,7 @@ dependencies:
   app-exists: 2.1.1
   camelcase-keys: 7.0.2
   change-case: 4.1.2
+  copy-to-clipboard: 3.3.1
   desm: 1.2.0
   execa: 6.1.0
   inquirer: 8.2.1
@@ -1185,6 +1187,12 @@ packages:
     dependencies:
       safe-buffer: 5.1.2
     dev: true
+
+  /copy-to-clipboard/3.3.1:
+    resolution: {integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==}
+    dependencies:
+      toggle-selection: 1.0.6
+    dev: false
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -4728,6 +4736,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /toggle-selection/1.0.6:
+    resolution: {integrity: sha1-bkWxJj8gF/oKzH2J14sVuL932jI=}
+    dev: false
 
   /tr46/0.0.3:
     resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
