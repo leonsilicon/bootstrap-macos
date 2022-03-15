@@ -1,4 +1,5 @@
 import { pnpmBootstrapper } from '~/bootstrappers/pnpm/bootstrapper.js';
+import pythonPipBootstrapper from '~/bootstrappers/python-pip/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand, runCommands } from '~/utils/command.js';
@@ -14,7 +15,11 @@ export const latexBootstrapper = createBootstrapper({
 
 		await runCommands(context, {
 			description: 'Installing Perl packages needed for latexindent',
-			commands: ['cpan File::HomeDir', 'cpan YAML::Tiny', 'cpan Unicode::GCString'],
+			commands: [
+				'cpan File::HomeDir',
+				'cpan YAML::Tiny',
+				'cpan Unicode::GCString',
+			],
 			extendEnv: true,
 			env: {
 				// https://stackoverflow.com/a/18463973
@@ -37,10 +42,11 @@ export const latexBootstrapper = createBootstrapper({
 			await pnpmInstall(context, 'latex-workflow');
 		}
 
-		await sendMessage(context, {
-			message: 'Installing pygments (needed for the minted LaTeX package)',
+		await pythonPipBootstrapper.bootstrap(context, { python2: true });
+		await runCommand(context, {
+			description: 'Installing pygments (needed for the minted LaTeX package)',
+			command: 'python2 -m pip install pygments',
 		});
-		await pipInstall(context, 'pygments');
 
 		await runCommand(context, {
 			description: 'Update all LaTeX packages',
