@@ -3,11 +3,11 @@ import * as os from 'node:os';
 import * as fs from 'node:fs';
 import { outdent } from 'outdent';
 import open from 'open';
-import copy from 'copy-to-clipboard';
 import { pressToContinue, promptInput, promptYesNo } from '~/utils/prompt.js';
 import { runCommand } from '~/utils/command.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { sendMessage } from '~/utils/message.js';
+import { copyToClipboard } from '~/utils/clipboard.js';
 
 export const githubBootstrapper = createBootstrapper({
 	name: 'GitHub SSH',
@@ -99,7 +99,7 @@ export const githubBootstrapper = createBootstrapper({
 				path.join(os.homedir(), '.ssh/id_ed25519'),
 				'utf8'
 			);
-			copy(sshKey);
+			await copyToClipboard(context, sshKey);
 		}
 
 		await open('https://github.com/settings/ssh/new');
