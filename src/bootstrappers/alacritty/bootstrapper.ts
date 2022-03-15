@@ -6,6 +6,7 @@ import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { getDotConfigDir } from '~/utils/config.js';
 import { sendMessage } from '~/utils/message.js';
+import { giveAppPermissionAccess } from '~/utils/system-preferences.js';
 
 const alacrittyConfig = outdent`
   # Colors (Gruvbox light)
@@ -61,6 +62,11 @@ export const alacrittyBootstrapper = createBootstrapper({
 				await fs.promises.writeFile(alacrittyConfigPath, alacrittyConfig);
 			}
 		}
+
+		await giveAppPermissionAccess(context, {
+			appName: 'Alacritty',
+			permissionName: 'Accessibility',
+		});
 	},
 });
 

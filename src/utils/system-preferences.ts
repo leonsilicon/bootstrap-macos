@@ -52,6 +52,7 @@ export async function reopenSystemPreferences(context: BootstrapperContext) {
 const paneIdToName = {
 	'com.apple.preference.security': 'Privacy & Security',
 	'com.apple.preference.trackpad': 'Trackpad',
+	'com.apple.preference.keyboard': 'Keyboard',
 } as const;
 
 const paneAnchors = {
