@@ -2,6 +2,8 @@ import { pnpmBootstrapper } from '~/bootstrappers/pnpm/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
 import { runCommand, runCommands } from '~/utils/command.js';
+import { sendMessage } from '~/utils/message.js';
+import { pnpmInstall } from '~/utils/pnpm.js';
 import { promptYesNo } from '~/utils/prompt.js';
 
 export const latexBootstrapper = createBootstrapper({
@@ -27,13 +29,11 @@ export const latexBootstrapper = createBootstrapper({
 				message: `Do you wish to install latex-workflow, ${latexWorkflowDescription}?`,
 			})
 		) {
-			await pnpmBootstrapper.bootstrap(context);
-
-			await runCommand(context, {
-				description: `Installing latex-workflow, ${latexWorkflowDescription}.`,
+			await sendMessage(context, {
+				message: `Installing latex-workflow, ${latexWorkflowDescription}.`,
 				link: 'https://github.com/leonzalion/latex-workflow#readme',
-				command: 'pnpm install --global latex-workflow',
 			});
+			await pnpmInstall(context, 'latex-workflow');
 		}
 
 		await runCommand(context, {

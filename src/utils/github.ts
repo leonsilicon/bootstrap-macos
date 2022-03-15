@@ -6,27 +6,37 @@ import { getRepositoryIdentifier } from '~/utils/git.js';
 // https://gist.github.com/steinwaywhw/a4cd19cda655b8249d908261a62687f8
 type DownloadGitHubLatestReleaseProps = {
 	repository: string;
+	findAssetName?: (artifactName: string) => boolean;
 	fileName: string;
 };
 export async function downloadGitHubLatestRelease(
 	context: BootstrapperContext,
-	{ repository, fileName }: DownloadGitHubLatestReleaseProps
-) {
+	{ repository, fileName, findAssetName }: DownloadGitHubLatestReleaseProps
+): Promise<string> {
+	if (context.dryRun) {
+		return '/tmp/non_existent_file';
+	}
+
 	const repositoryIdentifier = getRepositoryIdentifier(repository);
 	const response = await got(
 		`https://api.github.com/repos/${repositoryIdentifier}/releases/latest`
 	);
 	const repoInfo = JSON.parse(response.body) as {
-		assets: Array<{ browser_download_url: string }>;
+		assets: Array<{ browser_download_url: string; name: string }>;
 	};
-	const downloadUrl = repoInfo.assets[0]?.browser_download_url;
-	if (downloadUrl === undefined) {
-		throw new Error('Download URL not found.');
+
+	const asset =
+		findAssetName === undefined
+			? repoInfo.assets[0]
+			: repoInfo.assets.find(({ name }) => findAssetName(name));
+
+	if (asset === undefined) {
+		throw new Error('Asset not found.');
 	}
 
 	const filePath = await downloadFromUrl(context, {
 		fileName,
-		url: downloadUrl,
+		url: asset.browser_download_url,
 	});
 
 	return filePath;
