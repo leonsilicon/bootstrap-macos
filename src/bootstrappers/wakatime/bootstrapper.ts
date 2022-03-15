@@ -1,6 +1,7 @@
 import * as path from 'node:path';
 import * as os from 'node:os';
 import * as fs from 'node:fs';
+import { outdent } from 'outdent';
 import zshBootstrapper from '~/bootstrappers/zsh/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { promptInput } from '~/utils/prompt.js';
@@ -19,7 +20,10 @@ export const wakatimeBootstrapper = createBootstrapper({
 		if (!context.dryRun) {
 			await fs.promises.writeFile(
 				path.join(os.homedir(), '.wakatime.cfg'),
-				wakatimeApiKey
+				outdent`
+					[settings]
+					api_key = ${wakatimeApiKey}
+				`
 			);
 		}
 
