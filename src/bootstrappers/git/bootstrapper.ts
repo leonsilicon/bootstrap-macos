@@ -14,7 +14,7 @@ export const gitBootstrapper = createBootstrapper({
 
 		await runCommand(context, {
 			description: 'Set git pull configuration',
-			command: 'git config pull.rebase true',
+			command: 'git config --global pull.rebase true',
 		});
 
 		await addZshAlias(context, {
