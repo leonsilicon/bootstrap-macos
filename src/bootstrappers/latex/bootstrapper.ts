@@ -28,10 +28,11 @@ export const latexBootstrapper = createBootstrapper({
 			},
 		});
 
-		await sendMessage(
-			context,
-			'The following environment variables are needed for latexindent to work within VSCode (something about latexindent being able to find the corresponding modules).'
-		);
+		await sendMessage(context, {
+			message:
+				'The following environment variables are needed for latexindent to work within VSCode (something about latexindent being able to find the corresponding modules).',
+			link: 'https://stackoverflow.com/a/32726325',
+		});
 		await addToZshrc(context, {
 			content: outdent`
 				export PATH="${os.homedir()}/perl5/bin\${PATH:+:\${PATH}}";
