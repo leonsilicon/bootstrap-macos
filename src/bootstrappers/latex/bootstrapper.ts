@@ -1,4 +1,5 @@
-import { pnpmBootstrapper } from '~/bootstrappers/pnpm/bootstrapper.js';
+import * as os from 'node:os';
+import { outdent } from 'outdent';
 import pythonPipBootstrapper from '~/bootstrappers/python-pip/bootstrapper.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { brewInstall } from '~/utils/brew.js';
@@ -6,7 +7,7 @@ import { runCommand, runCommands } from '~/utils/command.js';
 import { sendMessage } from '~/utils/message.js';
 import { pnpmInstall } from '~/utils/pnpm.js';
 import { promptYesNo } from '~/utils/prompt.js';
-import { pipInstall } from '~/utils/python.js';
+import { addToZshrc } from '~/utils/zsh.js';
 
 export const latexBootstrapper = createBootstrapper({
 	name: 'LaTeX (macTeX)',
@@ -25,6 +26,20 @@ export const latexBootstrapper = createBootstrapper({
 				// https://stackoverflow.com/a/18463973
 				PERL_MM_USE_DEFAULT: '1',
 			},
+		});
+
+		await sendMessage(
+			context,
+			'The following environment variables are needed for latexindent to work within VSCode (something about latexindent being able to find the corresponding modules).'
+		);
+		await addToZshrc(context, {
+			content: outdent`
+				export PATH="${os.homedir()}/perl5/bin\${PATH:+:\${PATH}}";
+				export PERL5LIB="${os.homedir()}/perl5/lib/perl5\${PERL5LIB:+:\${PERL5LIB}}";
+				export PERL_LOCAL_LIB_ROOT="${os.homedir()}/perl5\${PERL_LOCAL_LIB_ROOT:+:\${PERL_LOCAL_LIB_ROOT}}";
+				export PERL_MB_OPT="--install_base \"${os.homedir()}/perl5\"";
+				export PERL_MM_OPT="INSTALL_BASE=${os.homedir()}/perl5";
+			`,
 		});
 
 		const latexWorkflowDescription =
