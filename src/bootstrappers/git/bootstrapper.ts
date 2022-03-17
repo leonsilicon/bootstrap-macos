@@ -30,6 +30,7 @@ export const gitBootstrapper = createBootstrapper({
 		});
 
 		await brewInstall(context, 'git-subrepo');
+		await brewInstall(context, 'git-lfs');
 	},
 });
 
