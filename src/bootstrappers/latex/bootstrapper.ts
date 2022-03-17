@@ -69,7 +69,11 @@ export const latexBootstrapper = createBootstrapper({
 			sudo: true,
 		});
 
-		// todo: install fonts
+		await sendMessage(context, {
+			message:
+				'Installing Microsoft Office Fonts so that you can use fonts like Calibri inside LaTeX documents.',
+		});
+		await brewInstall(context, 'font-microsoft-office', { cask: true });
 	},
 });
 
