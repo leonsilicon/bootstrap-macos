@@ -101,7 +101,7 @@ export const githubBootstrapper = createBootstrapper({
 
 		if (!context.dryRun) {
 			const sshKey = await fs.promises.readFile(
-				path.join(os.homedir(), '.ssh/id_ed25519'),
+				path.join(os.homedir(), '.ssh/id_ed25519.pub'),
 				'utf8'
 			);
 			await copyToClipboard(context, sshKey);
