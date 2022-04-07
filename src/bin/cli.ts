@@ -26,7 +26,6 @@ const bootstrapperEntries = await Promise.all(
 			path.dirname(bootstrapperFilePath)
 		);
 		const filename = path.parse(bootstrapperFilePath).name;
-		console.log(`${bootstrapperPath}/${filename}.js`);
 		const { default: bootstrapper } = (await import(
 			`${bootstrapperPath}/${filename}.js`
 		)) as { default: Bootstrapper<unknown> };
@@ -60,8 +59,6 @@ const { selectedBootstrapperNames } = await inquirer.prompt<{
 			)
 			.map((bootstrapper) => bootstrapper.name),
 });
-
-console.log(selectedBootstrapperNames);
 
 const selectedBootstrappers = selectedBootstrapperNames.map(
 	(selectedBootstrapperName) => bootstrappersMap[selectedBootstrapperName]!
