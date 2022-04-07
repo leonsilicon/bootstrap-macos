@@ -1,6 +1,7 @@
 {
 	"extends": "@leonzalion/configs/tsconfig.json",
 	"compilerOptions": {
+		"outDir": "dist",
 		"baseUrl": ".",
 		"lib": [
 			"es2021",

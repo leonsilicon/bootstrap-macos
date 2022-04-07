@@ -32,5 +32,5 @@ const bootstrapperTests = (
 ).filter((value) => value !== undefined);
 
 for (const bootstrapperTest of bootstrapperTests) {
-	bootstrapperTest();
+	// bootstrapperTest();
 }

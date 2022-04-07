@@ -1,5 +1,4 @@
 import pWaitFor from 'p-wait-for';
-import type { ElementReference } from '~/types/element-path.js';
 import { createBootstrapper } from '~/utils/bootstrapper.js';
 import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
 import { clickElement, getElements } from '~/utils/gui-scripting/ui.js';
@@ -23,17 +22,18 @@ export const scrollDirectionBootstrapper = createBootstrapper<{
 		}
 
 		await clickElement(context, scrollAndZoomButton);
-		const scrollDirectionNaturalCheckbox = await pWaitFor<ElementReference>(
-			async (resolve) => {
+		const scrollDirectionNaturalCheckbox = await pWaitFor(
+			async () => {
 				const elements = await getElements(context, 'System Preferences');
 				const scrollDirectionNaturalCheckbox = elements.find((element) =>
 					element.path.some(
 						(part) => part.type === 'checkbox' && part.name === '1'
 					)
 				);
-				return scrollDirectionNaturalCheckbox
-					? resolve(scrollDirectionNaturalCheckbox)
-					: false;
+				return [
+					scrollDirectionNaturalCheckbox !== undefined,
+					scrollDirectionNaturalCheckbox!,
+				];
 			}
 		);
 

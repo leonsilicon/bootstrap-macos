@@ -1,7 +1,6 @@
 import { outdent } from 'outdent';
 import pWaitFor from 'p-wait-for';
 import type { BootstrapperContext } from '~/types/context.js';
-import type { ElementReference } from '~/types/element-path.js';
 import { runAppleScript } from '~/utils/applescript.js';
 import { toggleCheckbox } from '~/utils/gui-scripting/checkbox.js';
 import { createElementReferences } from '~/utils/gui-scripting/element-path.js';
@@ -135,12 +134,12 @@ export async function giveAppPermissionAccess(
 	const { username, password } = await getAdminCredentials(context);
 
 	elements = [];
-	const authSheet = await pWaitFor<ElementReference>(async (resolve) => {
+	const authSheet = await pWaitFor(async () => {
 		elements = await getElements(context, 'System Preferences');
 		const authSheet = elements.find((element) =>
 			element.path.some((part) => part.fullName === 'sheet 1')
 		);
-		return authSheet ? resolve(authSheet) : false;
+		return [authSheet !== undefined, authSheet!];
 	});
 
 	await waitForElementExists(context, {

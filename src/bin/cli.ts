@@ -12,8 +12,11 @@ inquirer.registerPrompt('super-checkbox', SuperCheckboxPrompt);
 const bootstrappersFolder = join(import.meta.url, '../bootstrappers');
 
 let bootstrapperFiles = await recursiveReadDir(bootstrappersFolder);
-bootstrapperFiles = bootstrapperFiles.filter((bootstrapperFile) =>
-	bootstrapperFile.endsWith('.ts')
+bootstrapperFiles = bootstrapperFiles.filter(
+	(bootstrapperFile) =>
+		(bootstrapperFile.endsWith('.ts') || bootstrapperFile.endsWith('.js')) &&
+		!bootstrapperFile.endsWith('.d.ts') &&
+		!bootstrapperFile.includes('.test.')
 );
 
 const bootstrapperEntries = await Promise.all(
@@ -23,6 +26,7 @@ const bootstrapperEntries = await Promise.all(
 			path.dirname(bootstrapperFilePath)
 		);
 		const filename = path.parse(bootstrapperFilePath).name;
+		console.log(`${bootstrapperPath}/${filename}.js`);
 		const { default: bootstrapper } = (await import(
 			`${bootstrapperPath}/${filename}.js`
 		)) as { default: Bootstrapper<unknown> };
