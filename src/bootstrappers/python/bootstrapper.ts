@@ -36,6 +36,7 @@ export const pythonBootstrapper = createBootstrapper<{ version: string }>({
 			});
 		}
 
+		// TODO: https://stackoverflow.com/a/60469203
 		await pythonPackagesBootstrapper.bootstrap(context);
 	},
 });
