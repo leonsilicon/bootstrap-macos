@@ -7,7 +7,7 @@ export const swiftBootstrapper = createBootstrapper({
 		// Mint is a swift formatter
 		await brewInstall('mint');
 		// https://stackoverflow.com/questions/61501298/xcrun-error-unable-to-find-utility-xctest-not-a-developer-tool-or-in-path
-		// mint install apple/swift-format@swift-5.3-branch
+		// mint install apple/swift-format@swift-5.5-branch
 		// install apple-swift-format vscode extension
 		// /Users/leonzalion/.mint/bin
 	},
