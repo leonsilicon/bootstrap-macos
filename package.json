@@ -8,6 +8,7 @@
 		"prettier": "prettier --write .",
 		"lint": "eslint --fix --cache .",
 		"start": "node-ts ./src/bin/cli.ts",
+		"sudo-start": "sudo node-ts ./src/bin/cli.ts",
 		"build": "node-ts ./scripts/build.ts",
 		"test": "vitest run"
 	},
