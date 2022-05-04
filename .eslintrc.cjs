@@ -1,9 +1,6 @@
-const path = require('path');
+const createESLintConfig = require('@leonzalion/configs/eslint.cjs');
 
-module.exports = {
-	extends: require.resolve('@leonzalion/configs/eslint.cjs'),
-	ignorePatterns: ['generated'],
-	parserOptions: {
-		project: path.resolve(__dirname, 'tsconfig.eslint.json'),
-	}
-};
+module.exports = createESLintConfig(__dirname, {
+	ignorePatterns: ['generated']
+});
+
